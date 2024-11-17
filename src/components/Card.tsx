@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import placeholderImage from "../content/placeholder.png";
 
 interface CardProps {
   children?: ReactNode;
@@ -35,8 +36,12 @@ const ProductCard: React.FC<ProductCardProps> = (props: ProductCardProps) => {
     <div className="Card p-6 shadow-lg rounded-lg">
       <div className="flex items-center justify-between">
         <img
-          className="object-cover w-24 h-24 rounded-full"
-          src={props.image == null ? "" : props.image}
+          className="object-cover w-24 h-24"
+          src={
+            props.image && !props.image.toLowerCase().includes("string")
+              ? props.image
+              : placeholderImage
+          }
           alt="Product"
         />
         <div className="flex flex-col gap-2">

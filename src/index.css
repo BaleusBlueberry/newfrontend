@@ -18,9 +18,14 @@ body.light {
   --hover-color: 30, 100, 180;
   --nav-background-color: 245, 245, 245;
   --button-pressed-color: 11, 0, 225;
+  --overlay-background: 255, 255, 255;
+  --overlay-shadow: 0, 0, 0, 0.1;
+  --card-bg: 240, 250, 255;
+  --card-border: 200, 220, 235;
+  --input-border: 45, 121, 208;
+  --button-bg: 86, 156, 236;
   background-color: rgb(var(--background));
   color: rgb(var(--text-color));
-  border-color: rgb(var(--text-color));
 }
 
 body.dark {
@@ -29,34 +34,75 @@ body.dark {
   --hover-color: 42, 131, 255;
   --nav-background-color: 45, 45, 50;
   --button-pressed-color: 153, 102, 247;
+  --overlay-background: 45, 55, 70;
+  --overlay-shadow: 0, 0, 0, 0.5;
+  --card-bg: 45, 55, 70;
+  --card-border: 35, 45, 60;
+  --input-border: 42, 131, 255;
+  --button-bg: 86, 156, 236;
   background-color: rgb(var(--background));
   color: rgb(var(--text-color));
 }
 
+input {
+  border-color: rgb(var(--input-border));
+}
+
+button:not(.no-theme) {
+  background-color: rgb(var(--button-bg));
+}
+
+.Card {
+  background-color: rgb(var(--card-bg));
+  border: 1px solid rgb(var(--card-border));
+}
+
+.overlay-backdrop {
+  @apply fixed inset-0 flex justify-center items-center bg-black bg-opacity-50;
+}
+
+/* Overlay container */
+.overlay-container {
+  @apply w-96 rounded-lg shadow-xl overflow-hidden relative;
+  background-color: rgb(var(--overlay-background));
+  box-shadow: 0 4px 15px rgba(var(--overlay-shadow));
+}
+
+/* Close button */
+.overlay-close-button {
+  @apply absolute top-2 right-2 text-xl font-bold;
+  color: rgb(var(--text-color));
+}
+
+.overlay-close-button:hover {
+  color: rgba(var(--text-color), 0.7);
+}
+
+/* Overlay content */
+.overlay-content {
+  @apply p-6;
+}
+
+/* Product title */
+.overlay-title {
+  @apply text-2xl font-bold mb-2;
+  color: rgb(var(--text-color));
+}
+
+/* Product description */
+.overlay-description {
+  @apply mb-4;
+  color: rgba(var(--text-color), 0.7);
+}
+
+/* Product price */
+.overlay-price {
+  @apply text-xl font-bold mb-4;
+  color: rgb(var(--button-pressed-color));
+}
+
 #error-message {
   @apply flex gap-1 sm:gap-3 items-center text-red-600 p-5 text-xl;
-}
-
-.light input {
-  border-color: rgb(45, 121, 208);
-}
-
-.light button {
-  background-color: rgb(86, 156, 236);
-}
-
-.dark button {
-  background-color: rgb(86, 156, 236);
-}
-
-body.light .Card {
-  background-color: rgb(240, 250, 255);
-  border: 1px solid rgb(200, 220, 235);
-}
-
-body.dark .Card {
-  background-color: rgb(45, 55, 70);
-  border: 1px solid rgb(35, 45, 60);
 }
 
 /* Navigation styling */
