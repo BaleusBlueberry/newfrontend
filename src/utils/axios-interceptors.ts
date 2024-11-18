@@ -16,7 +16,7 @@ const onSuccess = (response) => {
 
 const onError = (error) => {
   console.error("request error", error);
-  return error;
+  return Promise.reject(error);
 };
 
 export const request = async (options: AxiosRequestConfig) => {
