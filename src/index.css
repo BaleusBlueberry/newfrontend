@@ -24,6 +24,7 @@ body.light {
   --card-border: 200, 220, 235;
   --input-border: 45, 121, 208;
   --button-bg: 86, 156, 236;
+  --button-bg-hover: 29, 78, 216;
   background-color: rgb(var(--background));
   color: rgb(var(--text-color));
 }
@@ -40,6 +41,7 @@ body.dark {
   --card-border: 35, 45, 60;
   --input-border: 42, 131, 255;
   --button-bg: 86, 156, 236;
+  --button-bg-hover: 29, 78, 216;
   background-color: rgb(var(--background));
   color: rgb(var(--text-color));
 }
@@ -51,6 +53,10 @@ input {
 
 button:not(.no-theme) {
   background-color: rgb(var(--button-bg));
+}
+
+button:not(.no-theme):hover {
+  background-color: rgb(var(--button-bg-hover)); /* Define hover state */
 }
 
 .Card {

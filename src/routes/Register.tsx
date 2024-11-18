@@ -128,7 +128,7 @@ const Register = () => {
         <button
           disabled={isLoading}
           type="submit"
-          className="bg-blue-500 disabled:bg-blue-500/50 w-1/2   block text-left hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4"
+          className="bg-blue-500 disabled:bg-blue-500/50 w-1/2   block text-lef font-bold py-2 px-4 rounded my-4"
         >
           Register
         </button>
