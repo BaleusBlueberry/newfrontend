@@ -46,7 +46,7 @@ body.dark {
 
 input {
   border-color: rgb(var(--input-border));
-  background-color: --background;
+  background-color: rgb(var(--background));
 }
 
 button:not(.no-theme) {
