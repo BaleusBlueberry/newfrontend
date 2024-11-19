@@ -69,7 +69,7 @@ const Register = () => {
             <ErrorMessage
               name="Username"
               component="div"
-              className="text-red-500"
+              className="error-message"
             />
           </div>
         </div>
@@ -86,7 +86,7 @@ const Register = () => {
             <ErrorMessage
               name="Email"
               component="div"
-              className="text-red-500"
+              className="error-message"
             />
           </div>
         </div>
@@ -103,7 +103,7 @@ const Register = () => {
             <ErrorMessage
               name="Password"
               component="div"
-              className="text-red-500"
+              className="error-message"
             />
           </div>
         </div>
@@ -120,7 +120,7 @@ const Register = () => {
             <ErrorMessage
               name="PasswordConfirm"
               component="div"
-              className="text-red-500"
+              className="error-message"
             />
           </div>
         </div>

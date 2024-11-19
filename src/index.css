@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 input {
-  border: 2px solid; /* Set a default border width */
-  border-color: inherit; /* Inherit the border color */
-  transition: border-color 0.3s ease; /* Smooth transition for border color change */
+  border: 2px solid;
+  border-color: inherit;
+  transition: border-color 0.3s ease;
 }
 
 body {
@@ -49,6 +49,11 @@ body.dark {
 input {
   border-color: rgb(var(--input-border));
   background-color: rgb(var(--background));
+  color: rgb(var(--text-color));
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(var(--text-color));
 }
 
 button:not(.no-theme) {
@@ -56,7 +61,7 @@ button:not(.no-theme) {
 }
 
 button:not(.no-theme):hover {
-  background-color: rgb(var(--button-bg-hover)); /* Define hover state */
+  background-color: rgb(var(--button-bg-hover));
 }
 
 .Card {
@@ -135,4 +140,9 @@ button:not(.no-theme):hover {
 #app-nav .active {
   color: rgb(var(--button-pressed-color));
   font-weight: bolder;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
 }

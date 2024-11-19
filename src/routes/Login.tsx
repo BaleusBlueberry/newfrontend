@@ -1,18 +1,11 @@
 import { ErrorMessage, Field, Formik, Form } from "formik";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import * as Yup from "yup";
-import { dialogs } from "../dialogs/dialogs";
-import auth from "../services/auth-service";
 import Spinner from "../components/Spinner";
-import useAuth from "../hooks/useAuth";
+import useLogin from "../hooks/useLogin";
 
 export const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>();
-
-  const navigate = useNavigate();
-  const { login } = useAuth();
+  const { isLoading, login, error } = useLogin();
 
   const validationSchema = Yup.object({
     Email: Yup.string().email("Bad Email!").required("The Email is required"),
@@ -34,27 +27,13 @@ export const Login = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(o) => {
-        setIsLoading(true);
-        setError(null);
-        auth
-          .login(o.Email, o.Password)
-          .then((response) => {
-            dialogs.success("Login successful");
-            login(response.data.token);
-            navigate("/");
-          })
-          .catch((error) => {
-            setError(error.message);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+      onSubmit={async (o) => {
+        login(o.Email, o.Password);
       }}
     >
       <Form className="flex flex-col items-center">
         {isLoading && <Spinner />}
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="Email">Email Address</label>
@@ -68,7 +47,7 @@ export const Login = () => {
             <ErrorMessage
               name="Email"
               component="div"
-              className="text-red-500"
+              className="error-message"
             />
           </div>
         </div>
@@ -85,7 +64,7 @@ export const Login = () => {
             <ErrorMessage
               name="Password"
               component="div"
-              className="text-red-500"
+              className="error-message"
             />
           </div>
         </div>

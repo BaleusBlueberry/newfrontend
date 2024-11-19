@@ -1,7 +1,7 @@
 import axios from "axios";
+import request from "../utils/axios-interceptors";
 
-const baseUrl = "https://localhost:7128/api/auth";
-
+const baseUrl = import.meta.env.VITE_BASE_URL + "api";
 const registerr = (
   email: string,
   username: string,
@@ -15,19 +15,23 @@ const registerr = (
     PasswordConfirm,
   });
 
-// after successful login, the server will return a token
-// and we will store it in the local storage
-const loginn = (email: string, password: string) =>
-  axios.post(`${baseUrl}/login`, { email, password }).then((response) => {
-    if (response.data.token) {
-      localStorage.setItem("user", JSON.stringify(response.data));
-    }
-    return response;
-  });
+const loginnn = (email: string, password: string) => {
+  return request({
+    method: "POST",
+    url: `/auth/login`,
+    data: { email, password },
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return Promise.reject(error);
+    });
+};
 
 const auth = {
   register: registerr,
-  login: loginn,
+  login: loginnn,
 };
 
 export default auth;

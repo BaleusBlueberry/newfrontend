@@ -11,7 +11,7 @@ const client = axios.create({
 
 const onSuccess = (response) => {
   console.debug("request succfull", response);
-  return response;
+  return Promise.resolve(response);
 };
 
 const onError = (error) => {

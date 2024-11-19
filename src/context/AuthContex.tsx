@@ -6,14 +6,14 @@ const getToken = localStorage.getItem("token") ?? "";
 export interface AuthContextType {
   isLoggedIn: boolean;
   token: string;
-  login: (token: string) => void;
+  loginFunction: (token: string) => void;
   logout: () => void;
 }
 
 const initialValues: AuthContextType = {
   isLoggedIn: checkToken,
   token: getToken,
-  login: () => {},
+  loginFunction: () => {},
   logout: () => {},
 };
 
@@ -35,7 +35,7 @@ function AuthProvider(props) {
     }
   }, []);
 
-  function login(token: string) {
+  function loginFunction(token: string) {
     setIsLoggedIn(true);
     setToken(token);
     localStorage.setItem("token", token); // Store token in localStorage
@@ -48,7 +48,7 @@ function AuthProvider(props) {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, token, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, token, loginFunction, logout }}>
       {props.children}
     </AuthContext.Provider>
   );
