@@ -1,7 +1,7 @@
 import axios from "axios";
 import request from "../utils/axios-interceptors";
 
-const baseUrl = import.meta.env.VITE_BASE_URL + "auth";
+const baseUrl = import.meta.env.VITE_BASE_URL + "/api";
 
 const registerr = (
   email: string,
@@ -9,7 +9,7 @@ const registerr = (
   password: string,
   PasswordConfirm: string
 ) =>
-  axios.post(`${baseUrl}/register`, {
+  axios.post(`${baseUrl}/auth/register`, {
     email,
     username,
     password,
