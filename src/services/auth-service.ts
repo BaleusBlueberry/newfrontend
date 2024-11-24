@@ -1,7 +1,8 @@
 import axios from "axios";
 import request from "../utils/axios-interceptors";
 
-const baseUrl = import.meta.env.VITE_BASE_URL + "api";
+const baseUrl = import.meta.env.VITE_BASE_URL + "auth";
+
 const registerr = (
   email: string,
   username: string,
