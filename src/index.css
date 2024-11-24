@@ -53,8 +53,15 @@ input {
 }
 
 input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px rgb(var(--background)) inset;
   -webkit-text-fill-color: rgb(var(--text-color));
-  -webkit-background-origin: rgb(var(--background));
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  box-shadow: 0 0 0px 1000px rgb(var(--background)) inset;
+  -webkit-text-fill-color: rgb(var(--text-color));
 }
 
 button:not(.no-theme) {
