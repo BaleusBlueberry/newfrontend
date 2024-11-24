@@ -54,6 +54,7 @@ input {
 
 input:-webkit-autofill {
   -webkit-text-fill-color: rgb(var(--text-color));
+  -webkit-background-origin: rgb(var(--background));
 }
 
 button:not(.no-theme) {
