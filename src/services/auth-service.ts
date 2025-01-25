@@ -1,6 +1,6 @@
 import axios from "axios";
 import request from "../utils/axios-interceptors";
-import { editprofile } from "./@types";
+import { UserDataForUpdateModel } from "../Types/userDataModels/UserDataForUpdateModel";
 
 const baseUrl = import.meta.env.VITE_BASE_URL + "/API";
 
@@ -31,11 +31,24 @@ const loginnn = (email: string, password: string) => {
     });
 };
 
-const EditProfile = (editProfile: editprofile) => {
+const EditProfile = (editProfile: UserDataForUpdateModel) => {
   return request({
     method: "PUT",
     url: `/Auth/Update`,
-    data: { editProfile },
+    data: { ...editProfile },
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return Promise.reject(error);
+    });
+};
+
+const GetUser = (userId: string) => {
+  return request({
+    method: "GET",
+    url: `/Auth/getUser/${userId}`,
   })
     .then((response) => {
       return response;
@@ -49,6 +62,7 @@ const auth = {
   register: registerr,
   login: loginnn,
   edit: EditProfile,
+  GetUser,
 };
 
 export default auth;

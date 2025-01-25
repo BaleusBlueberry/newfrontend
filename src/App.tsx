@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import {
   ProtectedRoute,
   ProtectedIfLoggedInRoute,
+  ProtectedIfNotLoggedInRoute,
 } from "./components/ProtectedRoute";
 import Townhalls from "./routes/TownHalls/TownHalls";
 import { TownHallBuildings } from "./routes/TownHalls/TownHallBuildings";
@@ -17,6 +18,7 @@ import DefensiveBuildingEditOrAdd from "./routes/buildingTypes/DefensiveBuilding
 import TrapBuildingEditOrAdd from "./routes/buildingTypes/TrapBuildingEditOrAdd";
 import Register from "./routes/Auth/Register";
 import Login from "./routes/Auth/Login";
+import EditProfile from "./routes/Auth/EditProfile";
 
 export const App = () => {
   const url = import.meta.env.VITE_BASE_URL;
@@ -45,13 +47,14 @@ export const App = () => {
             </ProtectedIfLoggedInRoute>
           }
         ></Route>
-        {/* <Route
+        <Route
           path="/user/profile"
           element={
-            <ProtectedIfLoggedInRoute>
-              <Login />
-            </ProtectedIfLoggedInRoute>
-          } ></Route>*/}
+            <ProtectedIfNotLoggedInRoute>
+              <EditProfile />
+            </ProtectedIfNotLoggedInRoute>
+          }
+        ></Route>
 
         <Route path="/Townhalls" element={<Townhalls />}></Route>
         <Route path="*" element={<NotFound />}></Route>

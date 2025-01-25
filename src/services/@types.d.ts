@@ -13,7 +13,7 @@ export type RegisterUser = {
   PasswordConfirm: string;
 };
 
-export type editprofile = {
+export type editprofileModel = {
   userId: string;
   email?: string; // Optional
   userName?: string; // Optional

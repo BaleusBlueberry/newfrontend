@@ -1,5 +1,12 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useEffect, useState } from "react";
+import { UserDataForUpdateModel } from "../Types/userDataModels/UserDataForUpdateModel";
+import { dialogs } from "../dialogs/dialogs";
+import auth from "../services/auth-service";
+import { isString } from "formik";
+import { decodeToken } from "../services/TokenDecode";
+import handleAxiosError from "../services/handleAxiosError";
+import { AxiosError } from "axios";
 
 const checkToken = !!localStorage.getItem("token");
 const getToken = localStorage.getItem("token") ?? "";
@@ -15,38 +22,15 @@ export interface AuthContextType {
   token: string;
   loginFunction: (response: LoginResponse) => void;
   logout: () => void;
+  getSingleUser: () => Promise<UserDataForUpdateModel>;
 }
 
-const initialValues: AuthContextType = {
-  isLoggedIn: checkToken,
-  token: getToken,
-  isAdmin: false,
-  loginFunction: () => {},
-  logout: () => {},
-};
+const AuthContext = createContext<AuthContextType>(null);
 
-const AuthContext = createContext(initialValues);
-
-function AuthProvider(props) {
+function AuthProvider({ children }) {
   const [isLoggedIn, setIsLoggedIn] = useState(checkToken);
   const [token, setToken] = useState(getToken);
   const [isAdmin, setIsAdmin] = useState(false);
-
-  const decodeToken = (token) => {
-    try {
-      const decoded = jwtDecode(token);
-
-      // Access roles safely
-      const roleClaim =
-        decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-      const roles = Array.isArray(roleClaim) ? roleClaim : [roleClaim];
-
-      return { ...decoded, roles }; // Add roles as an array for easy handling
-    } catch (error) {
-      console.error("Error decoding token:", error);
-      return null;
-    }
-  };
 
   useEffect(() => {
     if (checkToken) {
@@ -79,12 +63,37 @@ function AuthProvider(props) {
     localStorage.removeItem("token"); // Remove token from localStorage
   }
 
+  const getSingleUser = async () => {
+    dialogs.load();
+    try {
+      const decodedToken = decodeToken(token);
+      if (!decodedToken.userId) {
+        throw new Error("Invalid token");
+      }
+      const user = await auth.GetUser(decodedToken.userId);
+      dialogs.closeLoad();
+
+      return user.data;
+    } catch (err) {
+      dialogs.closeLoad();
+      handleAxiosError(err as AxiosError, (message) => {
+        dialogs.error(message);
+      });
+      throw err;
+    }
+  };
+
+  const contextValue: AuthContextType = {
+    isLoggedIn,
+    token,
+    loginFunction,
+    logout,
+    isAdmin,
+    getSingleUser,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{ isLoggedIn, token, loginFunction, logout, isAdmin }}
-    >
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }
 

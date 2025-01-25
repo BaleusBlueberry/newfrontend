@@ -25,3 +25,14 @@ export const ProtectedIfLoggedInRoute: FC<ProtectedRouteProps> = ({
 
   return children;
 };
+
+export const ProtectedIfNotLoggedInRoute: FC<ProtectedRouteProps> = ({
+  children,
+}) => {
+  const { isLoggedIn } = useAuth();
+  if (!isLoggedIn) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+};
