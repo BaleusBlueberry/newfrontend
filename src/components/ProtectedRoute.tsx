@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import useAuth from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
@@ -7,9 +7,9 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
-  const { isLoggedIn } = useAuth();
+  const { isAdmin } = useAuth();
 
-  if (!isLoggedIn) {
+  if (!isAdmin) {
     return <Navigate to="/login" />;
   }
   return children;

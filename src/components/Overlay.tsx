@@ -1,40 +1,115 @@
 import React from "react";
-import { productType } from "../services/@types";
+import { useNavigate } from "react-router-dom";
 import placeholderImage from "../content/placeholder.png";
+import allbuildings from "../content/allbuildings.webp";
+import Armybuildings from "../content/Armybuildings.webp";
+import defensesbuildings from "../content/defensesbuildings.webp";
+import HeroesBuildings from "../content/HeroesBuildings.webp";
+import ResourceImage from "../content/ResourceImage.webp";
+import TrapsBuildings from "../content/TrapsBuildings.webp";
+import useAuth from "../hooks/useAuth";
+import { DeleateButtonTownHall, EditButton } from "./Card";
+import useTownHalls from "../hooks/useTownHalls";
+import { COCTownhallDataType } from "../Types/TownHalls/COCTownhallDataType";
 
 interface OverlayProps {
   isOverlayOpen: boolean;
   onClose: () => void;
-  product: productType | null;
+  townHall: COCTownhallDataType | null;
 }
 
 const Overlay: React.FC<OverlayProps> = ({
   isOverlayOpen,
   onClose,
-  product,
+  townHall,
 }) => {
-  if (!isOverlayOpen || !product) return null;
+  const navigate = useNavigate();
+  const { isAdmin } = useAuth();
+  const { deleateTownHall } = useTownHalls();
+
+  if (!isOverlayOpen || !townHall) return null;
+
+  const categories = [
+    { key: "armyBuildings", title: "Army Buildings", image: Armybuildings },
+    {
+      key: "defensiveBuildings",
+      title: "Defensive Buildings",
+      image: defensesbuildings,
+    },
+    { key: "trapBuildings", title: "Trap Buildings", image: TrapsBuildings },
+    { key: "heroes", title: "Heroes", image: HeroesBuildings },
+    {
+      key: "resourceBuildings",
+      title: "Resource Buildings",
+      image: ResourceImage,
+    },
+    { key: "allBuildings", title: "All Buildings", image: allbuildings },
+  ];
+
+  const handleCardClick = (buildingType: string) => {
+    onClose();
+    navigate(`/Townhalls/${townHall.level}/${buildingType}`);
+  };
 
   return (
     <div className="overlay-backdrop" onClick={onClose}>
-      <div className="overlay-container" onClick={(e) => e.stopPropagation()}>
-        <button onClick={onClose} className="overlay-close-button no-theme">
-          ×
-        </button>
-        <img
-          src={
-            product.imageUrl &&
-            !product.imageUrl.toLowerCase().includes("string")
-              ? product.imageUrl
-              : placeholderImage
-          }
-          alt={product.name}
-          className="w-full h-64 object-cover"
-        />
-        <div className="overlay-content">
-          <h2 className="overlay-title">{product.name}</h2>
-          <p className="overlay-description">{product.description}</p>
-          <p className="overlay-price">${product.price.toFixed(2)}</p>
+      <div
+        className="overlay-container"
+        style={{
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.9)",
+          margin: "20px",
+        }}
+      >
+        <div className="inner-container">
+          {isAdmin && (
+            <div className="flex">
+              <EditButton navigate={`/Townhalls/Edit/${townHall.level}`} />
+              <DeleateButtonTownHall
+                function={() => {
+                  deleateTownHall(townHall.id);
+                }}
+                text={`Deleate TownHall Level`}
+              ></DeleateButtonTownHall>
+            </div>
+          )}
+
+          <div>
+            <div className="overlay-title">TownHall Level {townHall.level}</div>
+
+            <div className="overflow-hidden flex justify-center items-center rounded-lg sm:mx-6 mx-4">
+              <img
+                src={
+                  townHall.picture &&
+                  !townHall.picture.toLowerCase().includes("string")
+                    ? townHall.picture
+                    : placeholderImage
+                }
+                alt={`Town hall Level ${townHall.level} image`}
+                className="image"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 md:gap-2 sm:gap-1 sm:mt-2 mb-3 px-1">
+              {categories.map((category) => (
+                <div
+                  key={category.key}
+                  className="overlay-card"
+                  onClick={() => handleCardClick(category.key)}
+                >
+                  <div className="inner-image">
+                    <img
+                      src={category.image}
+                      alt={`${category.title} Icon`}
+                      className="h-24 mx-auto"
+                    />
+                  </div>
+                  <h3 className="text-center font-semibold text-sm">
+                    {category.title}
+                  </h3>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
