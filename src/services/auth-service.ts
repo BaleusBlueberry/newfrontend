@@ -1,7 +1,8 @@
 import axios from "axios";
 import request from "../utils/axios-interceptors";
+import { editprofile } from "./@types";
 
-const baseUrl = import.meta.env.VITE_BASE_URL + "/api";
+const baseUrl = import.meta.env.VITE_BASE_URL + "/API";
 
 const registerr = (
   email: string,
@@ -19,8 +20,22 @@ const registerr = (
 const loginnn = (email: string, password: string) => {
   return request({
     method: "POST",
-    url: `/auth/login`,
+    url: `/Auth/login`,
     data: { email, password },
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return Promise.reject(error);
+    });
+};
+
+const EditProfile = (editProfile: editprofile) => {
+  return request({
+    method: "PUT",
+    url: `/Auth/Update`,
+    data: { editProfile },
   })
     .then((response) => {
       return response;
@@ -33,6 +48,7 @@ const loginnn = (email: string, password: string) => {
 const auth = {
   register: registerr,
   login: loginnn,
+  edit: EditProfile,
 };
 
 export default auth;

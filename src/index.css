@@ -2,66 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-input {
-  border: 2px solid;
-  border-color: inherit;
-  transition: border-color 0.3s ease;
-}
-
 body {
   transition: color 0.3s ease;
 }
 
 body.light {
-  --background: 225, 240, 255;
-  --text-color: 1, 1, 1;
-  --hover-color: 30, 100, 180;
-  --nav-background-color: 245, 245, 245;
-  --button-pressed-color: 11, 0, 225;
-  --overlay-background: 255, 255, 255;
+  --background: 225, 240, 255; /* #e1f0ff */
+  --text-color: 1, 1, 1; /* black */
+  --hover-color: 30, 100, 180; /* #1e64b4 */
+  --nav-background-color: 245, 245, 245; /* #f5f5f5 */
+  --button-pressed-color: 11, 0, 225; /* #0b00e1 */
+  --overlay-background: 235, 246, 255; /* #ebf6ff */
+  --inner-background: 200, 220, 240; /* #c8dcf0 */
+  --overlay-background-2: 190, 210, 230; /* #569cec  */
   --overlay-shadow: 0, 0, 0, 0.1;
-  --card-bg: 240, 250, 255;
-  --card-border: 200, 220, 235;
-  --input-border: 45, 121, 208;
-  --button-bg: 86, 156, 236;
-  --button-bg-hover: 29, 78, 216;
+  --card-bg: 204, 233, 255; /* #cce9ff */
+  --card-border: 190, 210, 230; /* #bed2e6 */
+  --input-border: 45, 121, 208; /* #2d79d0 */
+  --button-bg: 86, 156, 236; /* #569cec */
+  --button-bg-hover: 29, 78, 216; /* #1d4ed8 */
   background-color: rgb(var(--background));
   color: rgb(var(--text-color));
 }
 
 body.dark {
-  --background: 30, 40, 55;
-  --text-color: 255, 255, 255;
-  --hover-color: 42, 131, 255;
-  --nav-background-color: 45, 45, 50;
-  --button-pressed-color: 153, 102, 247;
-  --overlay-background: 45, 55, 70;
-  --overlay-shadow: 0, 0, 0, 0.5;
-  --card-bg: 45, 55, 70;
-  --card-border: 35, 45, 60;
-  --input-border: 42, 131, 255;
-  --button-bg: 86, 156, 236;
-  --button-bg-hover: 29, 78, 216;
+  --background: 30, 40, 55; /* #1e2837 */
+  --text-color: 255, 255, 255; /* white */
+  --hover-color: 42, 131, 255; /* #2a83ff */
+  --nav-background-color: 45, 45, 50; /* #2d2d32 */
+  --button-pressed-color: 153, 102, 247; /* #9966f7 */
+  --overlay-background: 30, 40, 55; /* #1e2837 */
+  --overlay-background-2: 35, 45, 60; /*  */
+  --inner-background: 55, 70, 90; /* #37465a */
+  --overlay-shadow: 0, 0, 0, 0.5; /* */
+  --card-bg: 45, 55, 70; /* #2d3746 */
+  --card-border: 35, 45, 60; /* #232d3c */
+  --input-border: 42, 131, 255; /* #2a83ff */
+  --button-bg: 86, 156, 236; /* #569cec */
+  --button-bg-hover: 29, 78, 216; /* #1d4ed8 */
   background-color: rgb(var(--background));
   color: rgb(var(--text-color));
 }
 
 input {
+  border: 2px solid;
+  border-color: inherit;
+  transition: border-color 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: rgb(var(--background)); /* Background from theme */
+  color: rgb(var(--text-color)); /* Text color from theme */
+}
+
+/* Focused input styling */
+input:focus {
   border-color: rgb(var(--input-border));
+  outline: none;
+}
+
+body.light input {
   background-color: rgb(var(--background));
   color: rgb(var(--text-color));
+  border-color: rgb(var(--input-border));
 }
 
-input:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px rgb(var(--background)) inset;
-  -webkit-text-fill-color: rgb(var(--text-color));
-  transition: background-color 5000s ease-in-out 0s;
+body.dark input {
+  background-color: rgb(var(--background));
+  color: rgb(var(--text-color));
+  border-color: rgb(var(--input-border));
 }
 
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  box-shadow: 0 0 0px 1000px rgb(var(--background)) inset;
-  -webkit-text-fill-color: rgb(var(--text-color));
+button:active {
+  background-color: rgb(var(--button-pressed-color));
 }
 
 button:not(.no-theme) {
@@ -78,14 +90,32 @@ button:not(.no-theme):hover {
 }
 
 .overlay-backdrop {
-  @apply fixed inset-0 flex justify-center items-center bg-black bg-opacity-50;
+  @apply fixed inset-0 flex justify-center items-center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+body.dark div:where(.swal2-container) div:where(.swal2-popup) {
+  background-color: rgb(var(--inner-background));
+  z-index: 1;
+  border: 2px solid rgb(var(--card-border));
+  color: rgb(var(--text-color));
 }
 
 /* Overlay container */
 .overlay-container {
-  @apply w-96 rounded-lg shadow-xl overflow-hidden relative;
-  background-color: rgb(var(--overlay-background));
+  @apply min-w-fit overflow-hidden relative max-w-screen-2xl p-2 rounded-3xl shadow-2xl transform transition-all duration-300;
+  background-color: rgb(var(--inner-background));
   box-shadow: 0 4px 15px rgba(var(--overlay-shadow));
+}
+
+.inner-container {
+  @apply relative w-full max-w-screen-2xl flex flex-col rounded-3xl;
+  background-color: rgb(var(--overlay-background));
+}
+
+.inner-container-x2 {
+  @apply relative rounded-3xl;
+  background-color: rgb(var(--inner-background));
 }
 
 /* Close button */
@@ -105,20 +135,44 @@ button:not(.no-theme):hover {
 
 /* Product title */
 .overlay-title {
-  @apply text-2xl font-bold mb-2;
+  @apply text-center text-2xl font-bold mb-3;
   color: rgb(var(--text-color));
 }
 
-/* Product description */
 .overlay-description {
-  @apply mb-4;
+  @apply mb-2;
   color: rgba(var(--text-color), 0.7);
 }
 
-/* Product price */
-.overlay-price {
-  @apply text-xl font-bold mb-4;
-  color: rgb(var(--button-pressed-color));
+.overlay-image {
+  @apply overflow-hidden flex justify-center items-center rounded-lg shadow-lg mb-2 sm:mx-4 mx-2;
+  background-color: rgb(var(--card-bg));
+}
+.overlay-card {
+  @apply relative p-3 Card rounded-3xl hover:shadow-xl transform hover:-translate-y-1 transition duration-200 mx-2 my-2 cursor-pointer border;
+}
+.image {
+  @apply h-full w-auto object-contain rounded-lg max-h-48;
+}
+.inner-image {
+  @apply object-fill rounded-lg my-2;
+  background-color: rgb(var(--overlay-background));
+}
+.menu-image {
+  @apply object-fill rounded-lg my-2 mx-auto;
+  background-color: rgb(var(--overlay-background-2));
+}
+.admin-btn {
+  @apply flex items-center justify-center rounded-xl w-10 h-10 shadow-md transition duration-200 transform hover:scale-105 m-2 cursor-pointer;
+  background-color: rgb(var(--button-bg));
+}
+
+.admin-btn:hover {
+  background-color: rgb(var(--button-bg-hover));
+}
+.return-btn {
+  @apply flex items-center justify-center rounded-xl w-6 h-6 shadow-md transition duration-200 transform hover:scale-105 m-1 cursor-pointer;
+  background-color: rgb(var(--inner-background));
 }
 
 #error-message {
@@ -149,7 +203,62 @@ button:not(.no-theme):hover {
   color: rgb(var(--button-pressed-color));
   font-weight: bolder;
 }
+/* Parent dropdown container */
+.menu-items {
+  position: relative; /* Enable positioning for child dropdowns */
+}
 
+.logged-in-dropdown {
+  right: 0;
+}
+
+.dropdown {
+  list-style: none;
+  position: absolute;
+  top: 100%; /* Position below parent */
+  display: none; /* Initially hidden */
+  background: rgb(var(--background));
+  padding: 0;
+  margin: 0;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.menu-items:hover > .dropdown,
+.menu-items:focus-within > .dropdown {
+  display: block; /* Show dropdown on hover or focus */
+}
+
+/* Styling for dropdown items */
+.dropdown a,
+.dropdown button {
+  display: block;
+  padding: 8px 12px;
+  color: rgb(var(--text-color));
+  text-decoration: none;
+  width: 100%; /* Ensure button takes up full width */
+  box-sizing: border-box;
+  @apply text-center;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+  background: rgb(var(--hover-color));
+}
+
+.dropdown .wrapper {
+  border-width: 3px;
+  border-color: rgb(var(--inner-background));
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Nested dropdowns (optional for multi-level) */
+.dropdown .dropdown {
+  left: 100%;
+  top: 0;
+  margin-left: 1px;
+}
 .error-message {
   color: red;
   font-size: 12px;

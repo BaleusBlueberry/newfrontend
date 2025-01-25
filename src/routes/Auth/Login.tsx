@@ -1,23 +1,10 @@
 import { ErrorMessage, Field, Formik, Form } from "formik";
-import React from "react";
-import * as Yup from "yup";
-import Spinner from "../components/Spinner";
-import useLogin from "../hooks/useLogin";
+import { LoginValidation } from "../../Validations/LoginValidation";
+import Spinner from "../../components/Spinner";
+import useLogin from "../../hooks/useLogin";
 
 export const Login = () => {
   const { isLoading, login, error } = useLogin();
-
-  const validationSchema = Yup.object({
-    Email: Yup.string().email("Bad Email!").required("The Email is required"),
-    Password: Yup.string()
-      .required()
-      .min(8)
-      .max(20)
-      .matches(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_-]).{8,30}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
-      ),
-  });
 
   const initialValues = {
     Email: "",
@@ -26,7 +13,7 @@ export const Login = () => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validationSchema={LoginValidation}
       onSubmit={async (o) => {
         login(o.Email, o.Password);
       }}

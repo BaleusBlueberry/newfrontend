@@ -1,32 +1,10 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useState } from "react";
-import * as Yup from "yup";
-import Spinner from "../components/Spinner";
-import { dialogs } from "../dialogs/dialogs";
-import auth from "../services/auth-service";
-import { useNavigate } from "react-router-dom";
+import { RegisterValidation } from "../../Validations/RegisterValidation";
+import useLogin from "../../hooks/useLogin";
+import Spinner from "../../components/Spinner";
 
 const Register = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>();
-
-  const navigate = useNavigate();
-
-  const validationSchema = Yup.object({
-    Email: Yup.string().email("Bad Email!").required("The Email is required"),
-    Username: Yup.string().required().min(2).max(20),
-    Password: Yup.string()
-      .required()
-      .min(8)
-      .max(20)
-      .matches(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_-]).{8,30}$/,
-        "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
-      ),
-    PasswordConfirm: Yup.string()
-      .required()
-      .oneOf([Yup.ref("Password")], "Passwords must match"),
-  });
+  const { register, error, isLoading } = useLogin();
 
   const initialValues = {
     Email: "",
@@ -37,21 +15,9 @@ const Register = () => {
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      validationSchema={RegisterValidation}
       onSubmit={(o) => {
-        setIsLoading(true);
-        auth
-          .register(o.Email, o.Username, o.Password, o.PasswordConfirm)
-          .then(() => {
-            dialogs.success("Registered successfully!!!!");
-            navigate("/login");
-          })
-          .catch((error) => {
-            setError(error.message);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+        register(o);
       }}
     >
       <Form className="flex flex-col items-center">

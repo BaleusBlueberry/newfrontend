@@ -4,6 +4,8 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { DarkModeProvider } from "./context/DarkModeContex";
 import { AuthProvider } from "./context/AuthContex";
+import { TownHallProvider } from "./context/TownHallContext";
+import { COCProvider } from "./context/COCContext";
 
 const root = document.getElementById("root")!;
 
@@ -12,7 +14,11 @@ ReactDOM.createRoot(root).render(
   <BrowserRouter>
     <AuthProvider>
       <DarkModeProvider>
-        <App />
+        <TownHallProvider>
+          <COCProvider>
+            <App />
+          </COCProvider>
+        </TownHallProvider>
       </DarkModeProvider>
     </AuthProvider>
   </BrowserRouter>
