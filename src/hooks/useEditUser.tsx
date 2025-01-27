@@ -2,15 +2,15 @@ import { useState } from "react";
 import auth from "../services/auth-service";
 import { dialogs } from "../dialogs/dialogs";
 import useAuth from "./useAuth";
-import { editprofile } from "../services/@types";
 import handleAxiosError from "../services/handleAxiosError";
+import { editprofileModel } from "../services/@types";
 
 const useEditUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
   const { loginFunction } = useAuth();
 
-  const editUser = async (editProfile: editprofile) => {
+  const editUser = async (editProfile: editprofileModel) => {
     setIsLoading(true);
     setError(undefined);
     await auth

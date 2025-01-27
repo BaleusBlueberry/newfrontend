@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useCOCProvider from "../../hooks/useCOCProvider";
-
-import { AddCard, BuildingCard } from "../../components/Card";
 import { BuildingModel } from "../../Types/BuildingModel";
 import Spinner from "../../components/Spinner";
 import BuildingCardOverlay from "../../components/BuildingCardOverlay";
 import { CheckLevel } from "../../Validations/LevelChecker";
-import useAuth from "../../hooks/useAuth";
+import { BuildingCard } from "../../components/Card";
 
 export const TownHallBuildings: React.FC = () => {
   const { level, buildingType } = useParams<{

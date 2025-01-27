@@ -22,7 +22,8 @@ const Register = () => {
     >
       <Form className="flex flex-col items-center">
         {isLoading && <Spinner />}
-        {error && <p className="text-red-500">{error}</p>}
+        {error && <p className="text-red-500">{error}</p>}{" "}
+        <h1 className="overlay-title pt-2">Register</h1>
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="Username">User Name</label>
           <Field
@@ -39,7 +40,6 @@ const Register = () => {
             />
           </div>
         </div>
-
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="Email">Email Address</label>
           <Field
@@ -56,7 +56,6 @@ const Register = () => {
             />
           </div>
         </div>
-
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="Password">Password</label>
           <Field
@@ -73,7 +72,6 @@ const Register = () => {
             />
           </div>
         </div>
-
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="PasswordConfirm">Confirm Password</label>
           <Field
@@ -90,7 +88,6 @@ const Register = () => {
             />
           </div>
         </div>
-
         <button
           disabled={isLoading}
           type="submit"

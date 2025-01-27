@@ -9,6 +9,7 @@ import { ArmyBuildingsDataTest } from "../../tests/ArmyBuildingData";
 import { ArmyBuildingsValidation } from "../../Validations/ArmyBuildingValidation";
 import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
+import { dialogs } from "../../dialogs/dialogs";
 
 function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
@@ -57,10 +58,11 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           values
         );
         if (response.status == 204) {
-          console.log("Building updated successfully:", values);
+          dialogs.success("Building updated successfully:");
           await fetchCategory(BuildingTypes.ArmyBuildings);
         }
       } catch (error) {
+        dialogs.error("Error updating Building");
         console.error("Error updating Building:", error);
       }
     } else {
@@ -74,6 +76,7 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           await fetchCategory(BuildingTypes.ArmyBuildings);
         }
       } catch (error) {
+        dialogs.error("Error adding Building");
         console.error("Error adding Building:", error);
       }
     }

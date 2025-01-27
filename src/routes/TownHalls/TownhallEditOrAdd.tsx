@@ -305,7 +305,7 @@ function TownhallEditOrAdd({ mode }: { mode: `add` | `edit` }) {
     }
   };
 
-  const handleFieldChange = (name: string, value: any) => {
+  const handleFieldChange = (name: string, value: unknown) => {
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -324,7 +324,11 @@ function TownhallEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   }
 
   if (!formValues) {
-    return <div>No data found for this townhall.</div>;
+    return (
+      <div>
+        <h1 className="overlay-title">No data found for this townhall.</h1>
+      </div>
+    );
   }
   return (
     <div className="overlay-container max-w-screen-lg mx-auto p-6">

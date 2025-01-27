@@ -1,12 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { UpdateUserValidation } from "../../Validations/UpdateUserValidation";
-import { editprofileModel } from "../../services/@types";
 import auth from "../../services/auth-service";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { UserDataEditModel } from "../../Types/userDataModels/UserDataModel";
 import Spinner from "../../components/Spinner";
 import { transformUserData } from "../../Types/userDataModels/UserDataForUpdateToModel";
+import { dialogs } from "../../dialogs/dialogs";
 
 const EditProfile = () => {
   const { getSingleUser } = useAuth();
@@ -52,10 +52,10 @@ const EditProfile = () => {
     try {
       const response = await auth.edit(transformUserData(values));
       if (response.status == 204) {
-        console.log("user updated successfully:", values);
+        dialogs.success("user updated successfully:");
       }
     } catch (error) {
-      console.error("Error updating Building:", error);
+      dialogs.error("Error updating Building: " + error);
     }
   };
 

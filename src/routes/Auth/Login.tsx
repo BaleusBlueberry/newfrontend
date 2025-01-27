@@ -21,6 +21,7 @@ export const Login = () => {
       <Form className="flex flex-col items-center">
         {isLoading && <Spinner />}
         {error && <p className="text-red-500 text-sm">{error}</p>}
+        <h1 className="overlay-title pt-3">Login Page</h1>
 
         <div className="font-extralight form-group flex flex-col gap-2 w-1/2 mx-auto text-lg my-4">
           <label htmlFor="Email">Email Address</label>

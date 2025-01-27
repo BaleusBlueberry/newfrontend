@@ -9,6 +9,7 @@ import { ResourceType } from "../../Types/enums/ResourceType";
 import { ResourceBuildingValidation } from "../../Validations/ResourceBuildingValidation";
 import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
+import { dialogs } from "../../dialogs/dialogs";
 
 function ResourceBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
@@ -59,10 +60,11 @@ function ResourceBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           values
         );
         if (response.status == 204) {
-          console.log("Building updated successfully:", values);
+          dialogs.success("Building updated successfully");
           await fetchCategory(BuildingTypes.ResourceBuildings);
         }
       } catch (error) {
+        dialogs.error("Error updating Building");
         console.error("Error updating Building:", error);
       }
     } else {
@@ -72,11 +74,12 @@ function ResourceBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           values
         );
         if (response.status == 201) {
-          console.log("New Building added successfully:", values);
+          dialogs.success("New Building added successfully:");
           await fetchCategory(BuildingTypes.ResourceBuildings);
         }
       } catch (error) {
-        console.error("Error adding Building:", error);
+        dialogs.error("Error adding Building");
+        console.error("Error adding Building: ", error);
       }
     }
   };

@@ -7,3 +7,11 @@ export enum BuildingTypes {
   ResourceBuildings = "resourceBuildings",
   // Laboratory = "Laboratory",
 }
+
+export enum BuildingFavoritesTypes {
+  ArmyBuildings = "armyBuildings",
+  DefensiveBuildings = "defensiveBuildings",
+  ResourceBuildings = "resourceBuildings",
+  TrapBuildings = "trapBuildings",
+  TownHalls = "townHall",
+}

@@ -1,12 +1,17 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import placeholderImage from "../content/placeholder.png";
-import { FaPencilAlt, FaPlus, FaTrashAlt } from "react-icons/fa";
+import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { IoReturnDownBackOutline } from "react-icons/io5";
+import {
+  IoReturnDownBackOutline,
+  IoStar,
+  IoStarOutline,
+} from "react-icons/io5";
 import { dialogs } from "../dialogs/dialogs";
 import { COCTownhallDataType } from "../Types/TownHalls/COCTownhallDataType";
 import { BuildingModel } from "../Types/BuildingModel";
 import AddIcon from "../content/AddIcon.png";
+import useAuth from "../hooks/useAuth";
 
 export interface CardProps {
   children?: ReactNode;
@@ -26,11 +31,22 @@ interface ReactiveButtonProps {
 interface TownHallCardProp extends CardProps {
   townHall: COCTownhallDataType;
 }
+
+interface MainPageCardProps extends CardProps {
+  image: string;
+  link: string;
+  text: string;
+}
+
 interface BuildingCardProps extends CardProps {
   building: BuildingModel;
 }
 interface AddCardProps extends CardProps {
   buildingtype: string;
+}
+interface FavoriteCardProps extends CardProps {
+  buildingtype: string;
+  id: string;
 }
 
 const Card: React.FC<CardProps> = (props: CardProps) => {
@@ -59,6 +75,28 @@ const TownHallCard: React.FC<TownHallCardProp> = ({ townHall }) => {
           />
         </div>
         <h3 className="text-lg font-semibold">Level {townHall.level}</h3>
+        <p className="text-sm text-gray-500">Tap to see details</p>
+      </div>
+    </div>
+  );
+};
+
+const MainPageCard: React.FC<MainPageCardProps> = (data) => {
+  return (
+    <div className="overlay-card">
+      <div className="flex flex-col items-center text-center">
+        <div className="mb-4 mx-auto">
+          <img
+            className="h-25 sm:h-24 xl:h-32 transform transition-transform duration-300"
+            src={
+              data.image && !data.image.toLowerCase().includes("string")
+                ? data.image
+                : placeholderImage
+            }
+            alt={`Image of ${data.text}`}
+          />
+        </div>
+        <h3 className="text-lg font-semibold">{data.text}</h3>
         <p className="text-sm text-gray-500">Tap to see details</p>
       </div>
     </div>
@@ -141,6 +179,31 @@ const AddCard: React.FC<AddCardProps> = ({ buildingtype }) => {
   );
 };
 
+const FavoriteButton: React.FC<FavoriteCardProps> = (
+  props: FavoriteCardProps
+) => {
+  const { checkIfFavorite, setSingleFavorite } = useAuth();
+  const firstFav = checkIfFavorite(props.buildingtype, props.id);
+  const [isFavorite, setIsFavorite] = useState(firstFav);
+
+  // Toggle favorite and set the star icon when clicked
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSingleFavorite(props.buildingtype, props.id);
+    setIsFavorite((prev) => !prev);
+  };
+
+  return (
+    <div className="admin-btn" onClick={handleFavoriteClick}>
+      {isFavorite ? (
+        <IoStar aria-description="favorite Button" />
+      ) : (
+        <IoStarOutline aria-description="favorite Button" />
+      )}
+    </div>
+  );
+};
+
 const BuildingCard: React.FC<BuildingCardProps> = ({ building }) => {
   return (
     <div className="overlay-card">
@@ -170,4 +233,6 @@ export {
   ReturnButton,
   DeleateButtonTownHall,
   AddCard,
+  FavoriteButton,
+  MainPageCard,
 };

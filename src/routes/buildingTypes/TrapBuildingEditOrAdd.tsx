@@ -10,6 +10,7 @@ import { TrapBuildingsDataTest } from "../../tests/TrapBuildingData";
 import { TrapBuildingsValidation } from "../../Validations/TrapBuildingValidation";
 import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
+import { dialogs } from "../../dialogs/dialogs";
 
 function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
@@ -58,10 +59,11 @@ function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           values
         );
         if (response.status === 204) {
-          console.log("Trap Building updated successfully:", values);
+          dialogs.success("Trap Building updated successfully");
           await fetchCategory(BuildingTypes.TrapBuildings);
         }
       } catch (error) {
+        dialogs.error("Error updating Building");
         console.error("Error updating Trap Building:", error);
       }
     } else {
@@ -75,6 +77,7 @@ function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           await fetchCategory(BuildingTypes.TrapBuildings);
         }
       } catch (error) {
+        dialogs.error("Error adding Building");
         console.error("Error adding Trap Building:", error);
       }
     }

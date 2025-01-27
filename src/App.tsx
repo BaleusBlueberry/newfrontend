@@ -19,14 +19,12 @@ import TrapBuildingEditOrAdd from "./routes/buildingTypes/TrapBuildingEditOrAdd"
 import Register from "./routes/Auth/Register";
 import Login from "./routes/Auth/Login";
 import EditProfile from "./routes/Auth/EditProfile";
+import FavoriteBuildingsPage from "./routes/Favorites/FavoritePage";
+import Footer from "./components/Footer";
 
 export const App = () => {
-  const url = import.meta.env.VITE_BASE_URL;
-  const mode = import.meta.env.VITE_MODE;
-  console.log(`${url} mode: ${mode}`);
-
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -150,8 +148,18 @@ export const App = () => {
             </ProtectedRoute>
           }
         ></Route>
+
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedIfNotLoggedInRoute>
+              <FavoriteBuildingsPage />
+            </ProtectedIfNotLoggedInRoute>
+          }
+        ></Route>
       </Routes>
-    </>
+      <Footer />
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
 import useAuth from "../hooks/useAuth";
-import { DeleateButtonTownHall, EditButton } from "./Card";
+import { DeleateButtonTownHall, EditButton, FavoriteButton } from "./Card";
 import { BuildingModel } from "../Types/BuildingModel";
 import useCOCProvider from "../hooks/useCOCProvider";
 import { BasicBuildingDetails } from "./buildingDetails/BuildingDitails";
@@ -15,7 +15,7 @@ export const BuildingCardOverlay: React.FC<OverlayProps> = ({
   onClose,
   building,
 }) => {
-  const { isAdmin } = useAuth();
+  const { isAdmin, isLoggedIn } = useAuth();
   const { deleateBuilding } = useCOCProvider();
 
   if (!isOverlayOpen || !building) return null;
@@ -39,19 +39,30 @@ export const BuildingCardOverlay: React.FC<OverlayProps> = ({
         }}
       >
         <div className="inner-container">
-          {isAdmin && (
-            <div className="flex">
-              <EditButton
-                navigate={`/${building.buildingType}/edit/${building.id}`}
-              />
-              <DeleateButtonTownHall
-                function={() => {
-                  deleateBuilding(building.buildingType, building.id);
-                }}
-                text={`Deleate ${building.name} level ${building.level}`}
-              ></DeleateButtonTownHall>
-            </div>
-          )}
+          <div className="flex">
+            {isAdmin && (
+              <>
+                <EditButton
+                  navigate={`/${building.buildingType}/edit/${building.id}`}
+                />
+                <DeleateButtonTownHall
+                  function={() => {
+                    deleateBuilding(building.buildingType, building.id);
+                  }}
+                  text={`Deleate ${building.name} level ${building.level}`}
+                ></DeleateButtonTownHall>
+              </>
+            )}
+            {isLoggedIn && (
+              <>
+                <FavoriteButton
+                  id={building.id}
+                  buildingtype={building.buildingType}
+                />
+              </>
+            )}
+          </div>
+
           <div className="inner-container p-4 ">
             <BasicBuildingDetails
               building={building}

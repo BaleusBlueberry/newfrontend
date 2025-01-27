@@ -106,11 +106,16 @@ body.dark div:where(.swal2-container) div:where(.swal2-popup) {
   @apply min-w-fit overflow-hidden relative max-w-screen-2xl p-2 rounded-3xl shadow-2xl transform transition-all duration-300;
   background-color: rgb(var(--inner-background));
   box-shadow: 0 4px 15px rgba(var(--overlay-shadow));
+  max-height: 97vh;
+  overflow-y: auto;
+  transform: scale(1); /* Smooth animations (if needed) */
+  transition: transform 0.3s ease-in-out;
 }
 
 .inner-container {
   @apply relative w-full max-w-screen-2xl flex flex-col rounded-3xl;
   background-color: rgb(var(--overlay-background));
+  overflow-y: auto;
 }
 
 .inner-container-x2 {
@@ -152,7 +157,8 @@ body.dark div:where(.swal2-container) div:where(.swal2-popup) {
   @apply relative p-3 Card rounded-3xl hover:shadow-xl transform hover:-translate-y-1 transition duration-200 mx-2 my-2 cursor-pointer border;
 }
 .image {
-  @apply h-full w-auto object-contain rounded-lg max-h-48;
+  @apply w-auto object-contain rounded-lg h-auto;
+  max-height: 15vh;
 }
 .inner-image {
   @apply object-fill rounded-lg my-2;
@@ -203,6 +209,51 @@ body.dark div:where(.swal2-container) div:where(.swal2-popup) {
   color: rgb(var(--button-pressed-color));
   font-weight: bolder;
 }
+
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  padding: 20px 0;
+  background-color: rgb(var(--background)); /* Use theme background */
+  color: rgb(var(--text-color)); /* Ensure text color matches theme */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+footer .flex {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+footer .text-sm {
+  font-size: 0.875rem;
+}
+
+footer a {
+  color: rgb(var(--text-color)); /* Link text color */
+}
+
+footer a:hover {
+  color: rgb(var(--hover-color)); /* Hover color */
+}
+
+/* Ensuring responsiveness */
+@media (max-width: 768px) {
+  footer .flex {
+    flex-direction: column; /* Stack the links vertically on smaller screens */
+    gap: 1rem;
+  }
+
+  footer p {
+    font-size: 0.875rem; /* Adjust font size for smaller screens */
+  }
+}
+
 /* Parent dropdown container */
 .menu-items {
   position: relative; /* Enable positioning for child dropdowns */
@@ -210,6 +261,15 @@ body.dark div:where(.swal2-container) div:where(.swal2-popup) {
 
 .logged-in-dropdown {
   right: 0;
+}
+
+.searchBar {
+  background-color: rgb(var(--overlay-background));
+  color: rgb(var(--text-color));
+}
+
+.searchHover:hover {
+  background: rgb(var(--hover-color));
 }
 
 .dropdown {

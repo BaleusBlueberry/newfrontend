@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react";
 import useAuth from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
+import Page401 from "../routes/Page401";
 
 type ProtectedRouteProps = {
   children: ReactNode;
@@ -10,7 +11,7 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
   const { isAdmin } = useAuth();
 
   if (!isAdmin) {
-    return <Navigate to="/login" />;
+    return <Page401></Page401>;
   }
   return children;
 };

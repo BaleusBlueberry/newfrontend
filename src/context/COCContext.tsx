@@ -69,7 +69,7 @@ function COCProvider({ children }) {
 
   const handleAsyncOperation = async (
     category: BuildingTypes,
-    operation: () => Promise<any>
+    operation: () => Promise<unknown>
   ) => {
     setIsLoading(true);
     setError((prev) => ({ ...prev, [category]: null }));
@@ -91,6 +91,7 @@ function COCProvider({ children }) {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     refreshAllBuildings();
   }, []);

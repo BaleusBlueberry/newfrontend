@@ -8,7 +8,7 @@ import HeroesBuildings from "../content/HeroesBuildings.webp";
 import ResourceImage from "../content/ResourceImage.webp";
 import TrapsBuildings from "../content/TrapsBuildings.webp";
 import useAuth from "../hooks/useAuth";
-import { DeleateButtonTownHall, EditButton } from "./Card";
+import { DeleateButtonTownHall, EditButton, FavoriteButton } from "./Card";
 import useTownHalls from "../hooks/useTownHalls";
 import { COCTownhallDataType } from "../Types/TownHalls/COCTownhallDataType";
 
@@ -24,7 +24,7 @@ const Overlay: React.FC<OverlayProps> = ({
   townHall,
 }) => {
   const navigate = useNavigate();
-  const { isAdmin } = useAuth();
+  const { isAdmin, isLoggedIn } = useAuth();
   const { deleateTownHall } = useTownHalls();
 
   if (!isOverlayOpen || !townHall) return null;
@@ -61,17 +61,24 @@ const Overlay: React.FC<OverlayProps> = ({
         }}
       >
         <div className="inner-container">
-          {isAdmin && (
-            <div className="flex">
-              <EditButton navigate={`/Townhalls/Edit/${townHall.level}`} />
-              <DeleateButtonTownHall
-                function={() => {
-                  deleateTownHall(townHall.id);
-                }}
-                text={`Deleate TownHall Level`}
-              ></DeleateButtonTownHall>
-            </div>
-          )}
+          <div className="flex">
+            {isAdmin && (
+              <>
+                <EditButton navigate={`/Townhalls/Edit/${townHall.level}`} />
+                <DeleateButtonTownHall
+                  function={() => {
+                    deleateTownHall(townHall.id);
+                  }}
+                  text={`Deleate TownHall Level`}
+                ></DeleateButtonTownHall>
+              </>
+            )}
+            {isLoggedIn && (
+              <>
+                <FavoriteButton id={townHall.id} buildingtype="townHall" />
+              </>
+            )}
+          </div>
 
           <div>
             <div className="overlay-title">TownHall Level {townHall.level}</div>
@@ -89,7 +96,7 @@ const Overlay: React.FC<OverlayProps> = ({
               />
             </div>
 
-            <div className="grid grid-cols-2 md:gap-2 sm:gap-1 sm:mt-2 mb-3 px-1">
+            <div className="grid grid-cols-2 md:gap-1 sm:gap-0 sm:mt-1 px-1">
               {categories.map((category) => (
                 <div
                   key={category.key}

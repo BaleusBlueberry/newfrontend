@@ -1,11 +1,11 @@
 import { Card } from "../components/Card";
 
-function NotFound() {
+function Page401() {
   return (
     <div className="h-screen flex items-center justify-center">
-      <Card title="404 Not Found"></Card>
+      <Card title="401 Not Allowed"></Card>
     </div>
   );
 }
 
-export default NotFound;
+export default Page401;

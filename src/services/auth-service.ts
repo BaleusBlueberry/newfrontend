@@ -1,6 +1,7 @@
 import axios from "axios";
 import request from "../utils/axios-interceptors";
 import { UserDataForUpdateModel } from "../Types/userDataModels/UserDataForUpdateModel";
+import { FavoritesToServerModel } from "../Types/userDataModels/FavoritesModel";
 
 const baseUrl = import.meta.env.VITE_BASE_URL + "/API";
 
@@ -58,11 +59,40 @@ const GetUser = (userId: string) => {
     });
 };
 
+const GetFavorites = (id: string) => {
+  return request({
+    method: "GET",
+    url: `/Auth/favorites/${id}`,
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return Promise.reject(error);
+    });
+};
+
+const UpdateFavorites = (favorites: FavoritesToServerModel) => {
+  return request({
+    method: "PUT",
+    url: `/Auth/favorites/update`,
+    data: { ...favorites },
+  })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return Promise.reject(error);
+    });
+};
+
 const auth = {
   register: registerr,
   login: loginnn,
   edit: EditProfile,
   GetUser,
+  GetFavorites,
+  UpdateFavorites,
 };
 
 export default auth;

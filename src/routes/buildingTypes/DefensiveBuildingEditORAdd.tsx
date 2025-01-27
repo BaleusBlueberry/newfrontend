@@ -10,6 +10,7 @@ import { DefensiveBuildingsValidation } from "../../Validations/DefensiveBuildin
 import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
 import { DamageType } from "../../Types/enums/DamageType";
+import { dialogs } from "../../dialogs/dialogs";
 
 function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
@@ -36,10 +37,11 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           if (response) {
             setFormValues(response);
           } else {
-            console.error(`Building with id ${id} not found.`);
+            dialogs.error(`Building with id ${id} not found.`);
           }
         } catch (error) {
-          console.error("Error fetching Building:", error);
+          dialogs.error("Error fetching Building:");
+          console.log(error);
         } finally {
           setLoading(false);
         }

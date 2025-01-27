@@ -13,10 +13,10 @@ export const MenuItems: React.FC<MenuItemsProps> = ({ items }) => {
 
   const handleClick = () => {
     if (items.submenu) {
-      setIsDropdownOpen((prev) => !prev); // Toggle dropdown
+      setIsDropdownOpen((prev) => !prev);
     } else {
-      setIsDropdownOpen(false); // Close dropdown
-      navigate(items.link); // Navigate to the link
+      setIsDropdownOpen(false);
+      navigate(items.link);
     }
   };
 

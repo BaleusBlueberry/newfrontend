@@ -46,7 +46,7 @@ export const BasicBuildingDetails: React.FC<BasicBuildingDetailsProps> = ({
           <>
             <p>Error Loading Details</p>
           </>
-        ); // Handle unknown buildingType
+        );
     }
   };
 

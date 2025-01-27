@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field } from "formik";
 
 interface FieldGroupProps {
   label: string;
@@ -6,8 +6,8 @@ interface FieldGroupProps {
   type?: string;
   as?: "input" | "select" | "checkbox";
   options?: string[]; // For select fields
-  setFieldValue: (field: string, value: any) => void;
-  parseValue?: (value: string) => any; // Optional custom parsing
+  setFieldValue: (field: string, value: unknown) => void;
+  parseValue?: (value: string) => unknown; // Optional custom parsing
 }
 
 const FieldGroup: React.FC<FieldGroupProps> = ({
