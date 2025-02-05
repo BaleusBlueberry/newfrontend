@@ -34,15 +34,17 @@ export const TownhallLevels = () => {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
             {townHalls &&
-              townHalls.map((townhall) => (
-                <div
-                  onClick={() => toggleOverlay(townhall)}
-                  key={townhall.id}
-                  className="cursor-pointer"
-                >
-                  <TownHallCard townHall={townhall} />
-                </div>
-              ))}
+              [...townHalls]
+                .sort((a, b) => a.level - b.level) // Sort by level in ascending order
+                .map((townhall) => (
+                  <div
+                    onClick={() => toggleOverlay(townhall)}
+                    key={townhall.id}
+                    className="cursor-pointer"
+                  >
+                    <TownHallCard townHall={townhall} />
+                  </div>
+                ))}
             {isAdmin && (
               <div
                 onClick={() => {

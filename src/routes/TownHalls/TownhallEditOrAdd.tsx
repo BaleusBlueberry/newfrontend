@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import apiTownHall from "../../services/COC-service-townhall";
 import { COCTownhallDataType } from "../../Types/TownHalls/COCTownhallDataType";
 import Spinner from "../../components/Spinner";
+import useTownHalls from "../../hooks/useTownHalls";
 
 function TownhallEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { level } = useParams<{ level: string }>();
@@ -18,6 +19,7 @@ function TownhallEditOrAdd({ mode }: { mode: `add` | `edit` }) {
     [key: string]: boolean;
   }>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const { updateTownHall, createTownHall } = useTownHalls();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -287,21 +289,11 @@ function TownhallEditOrAdd({ mode }: { mode: `add` | `edit` }) {
     fetchData();
   }, [isEditMode, levelNumber]);
 
-  const onSubmit = async (values: COCTownhallDataType) => {
+  const onSubmit = async (values: COCTownhallDataType): Promise<void> => {
     if (isEditMode) {
-      try {
-        await apiTownHall.update(values);
-        console.log("Townhall updated successfully:", values);
-      } catch (error) {
-        console.error("Error updating townhall:", error);
-      }
+      await updateTownHall(values);
     } else {
-      try {
-        await apiTownHall.create(values);
-        console.log("New townhall added successfully:", values);
-      } catch (error) {
-        console.error("Error adding townhall:", error);
-      }
+      await createTownHall(values);
     }
   };
 

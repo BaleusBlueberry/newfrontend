@@ -84,6 +84,7 @@ function TownHallProvider({ children }: { children: React.ReactNode }) {
           prev.map((th) => (th.id === data.id ? result.data : th))
         );
         dialogs.success("Town hall updated successfully");
+        navigate("/townhalls");
       }
     });
   };
@@ -94,7 +95,7 @@ function TownHallProvider({ children }: { children: React.ReactNode }) {
       const result = await apiTownHall.create(data);
       if (result.status === 201) {
         setTownHalls((prev) => [...prev, result.data]);
-        navigate("");
+        navigate("/townhalls");
       }
     });
   };

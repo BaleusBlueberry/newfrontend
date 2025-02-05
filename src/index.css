@@ -92,6 +92,7 @@ button:not(.no-theme):hover {
 .overlay-backdrop {
   @apply fixed inset-0 flex justify-center items-center;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
 }
 
 body.dark div:where(.swal2-container) div:where(.swal2-popup) {
@@ -222,6 +223,7 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 
 footer .flex {
