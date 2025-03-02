@@ -7,14 +7,18 @@ import { ResourceType } from "../../Types/enums/ResourceType";
 import { ArmyBuildingsModel } from "../../Types/ArmyModels/ArmyBuildingsModel";
 import { ArmyBuildingsDataTest } from "../../tests/ArmyBuildingData";
 import { ArmyBuildingsValidation } from "../../Validations/ArmyBuildingValidation";
-import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
+
 import Spinner from "../../components/Spinner";
 import { dialogs } from "../../dialogs/dialogs";
+import {
+  ArrayFieldGroup,
+  FieldGroup,
+} from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 
 function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
   const isEditMode = mode === "edit";
-  const { fetchSingleBuilding, updateBuilding, createBuilding, fetchCategory } =
+  const { fetchSingleBuilding, updateBuilding, createBuilding } =
     useCOCProvider();
 
   const [formValues, setFormValues] = useState<ArmyBuildingsModel>(
@@ -57,10 +61,6 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           BuildingTypes.ArmyBuildings,
           values
         );
-        if (response.status == 204) {
-          dialogs.success("Building updated successfully:");
-          await fetchCategory(BuildingTypes.ArmyBuildings);
-        }
       } catch (error) {
         dialogs.error("Error updating Building");
         console.error("Error updating Building:", error);
@@ -71,10 +71,6 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           BuildingTypes.ArmyBuildings,
           values
         );
-        if (response.status == 201) {
-          console.log("New Building added successfully:", values);
-          await fetchCategory(BuildingTypes.ArmyBuildings);
-        }
       } catch (error) {
         dialogs.error("Error adding Building");
         console.error("Error adding Building:", error);
@@ -178,7 +174,7 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
               setFieldValue={setFieldValue}
               parseValue={(value) => parseInt(value, 10) || 0}
             />
-            {/*need to add unlocks: [] */}
+            <ArrayFieldGroup label="Unlocks" name="unlocks" />
             {/* Add hero upgrade fields */}
             {[
               "barbarianKing",

@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import useCOCProvider from "../../hooks/useCOCProvider";
 import { BuildingTypes } from "../../Types/enums/BuildingTypes";
 import { ResourceBuildingsDataTest } from "../../tests/ResourceBuildingsDataTest";
 import { ResourceBuildingsModel } from "../../Types/ResourceModels/ResourceBuildingsModel";
 import { ResourceType } from "../../Types/enums/ResourceType";
 import { ResourceBuildingValidation } from "../../Validations/ResourceBuildingValidation";
-import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
+import { FieldGroup } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
 import { dialogs } from "../../dialogs/dialogs";
 
 function ResourceBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
   const isEditMode = mode === "edit";
-  const { fetchSingleBuilding, updateBuilding, createBuilding, fetchCategory } =
+  const { fetchSingleBuilding, updateBuilding, createBuilding } =
     useCOCProvider();
 
   const [formValues, setFormValues] = useState<ResourceBuildingsModel>(
@@ -55,28 +55,14 @@ function ResourceBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const onSubmit = async (values: ResourceBuildingsModel) => {
     if (isEditMode) {
       try {
-        const response = await updateBuilding(
-          BuildingTypes.ResourceBuildings,
-          values
-        );
-        if (response.status == 204) {
-          dialogs.success("Building updated successfully");
-          await fetchCategory(BuildingTypes.ResourceBuildings);
-        }
+        await updateBuilding(BuildingTypes.ResourceBuildings, values);
       } catch (error) {
         dialogs.error("Error updating Building");
         console.error("Error updating Building:", error);
       }
     } else {
       try {
-        const response = await createBuilding(
-          BuildingTypes.ResourceBuildings,
-          values
-        );
-        if (response.status == 201) {
-          dialogs.success("New Building added successfully:");
-          await fetchCategory(BuildingTypes.ResourceBuildings);
-        }
+        await createBuilding(BuildingTypes.ResourceBuildings, values);
       } catch (error) {
         dialogs.error("Error adding Building");
         console.error("Error adding Building: ", error);

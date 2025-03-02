@@ -8,14 +8,14 @@ import { DamageType } from "../../Types/enums/DamageType";
 import { TrapBuildingsModel } from "../../Types/TrapModels/TrapBuildingsModel";
 import { TrapBuildingsDataTest } from "../../tests/TrapBuildingData";
 import { TrapBuildingsValidation } from "../../Validations/TrapBuildingValidation";
-import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
+import { FieldGroup } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
 import { dialogs } from "../../dialogs/dialogs";
 
 function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
   const isEditMode = mode === "edit";
-  const { fetchSingleBuilding, updateBuilding, createBuilding, fetchCategory } =
+  const { fetchSingleBuilding, updateBuilding, createBuilding } =
     useCOCProvider();
 
   const [formValues, setFormValues] = useState<TrapBuildingsModel>(
@@ -54,28 +54,14 @@ function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const onSubmit = async (values: TrapBuildingsModel) => {
     if (isEditMode) {
       try {
-        const response = await updateBuilding(
-          BuildingTypes.TrapBuildings,
-          values
-        );
-        if (response.status === 204) {
-          dialogs.success("Trap Building updated successfully");
-          await fetchCategory(BuildingTypes.TrapBuildings);
-        }
+        await updateBuilding(BuildingTypes.TrapBuildings, values);
       } catch (error) {
         dialogs.error("Error updating Building");
         console.error("Error updating Trap Building:", error);
       }
     } else {
       try {
-        const response = await createBuilding(
-          BuildingTypes.TrapBuildings,
-          values
-        );
-        if (response.status === 201) {
-          console.log("New Trap Building added successfully:", values);
-          await fetchCategory(BuildingTypes.TrapBuildings);
-        }
+        await createBuilding(BuildingTypes.TrapBuildings, values);
       } catch (error) {
         dialogs.error("Error adding Building");
         console.error("Error adding Trap Building:", error);

@@ -1,4 +1,4 @@
-import { ErrorMessage, Field } from "formik";
+import { ErrorMessage, Field, FieldArray } from "formik";
 
 interface FieldGroupProps {
   label: string;
@@ -8,6 +8,11 @@ interface FieldGroupProps {
   options?: string[]; // For select fields
   setFieldValue: (field: string, value: unknown) => void;
   parseValue?: (value: string) => unknown; // Optional custom parsing
+}
+
+interface FieldGroupArryProps {
+  label: string;
+  name: string;
 }
 
 const FieldGroup: React.FC<FieldGroupProps> = ({
@@ -62,4 +67,40 @@ const FieldGroup: React.FC<FieldGroupProps> = ({
   );
 };
 
-export default FieldGroup;
+const ArrayFieldGroup: React.FC<FieldGroupArryProps> = ({ label, name }) => {
+  return (
+    <div className="mb-4 w-full">
+      <label className="block font-semibold">{label}:</label>
+      <FieldArray name={name}>
+        {({ push, remove, form }) => (
+          <div>
+            {form.values[name].map((value, index) => (
+              <div key={index} className="flex gap-2 items-center mb-2">
+                <Field
+                  name={`${name}.${index}`}
+                  className="input w-full p-2 rounded-lg"
+                />
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={() => remove(index)}
+                >
+                  X
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn btn-primary mt-2"
+              onClick={() => push("")}
+            >
+              + Add Unlock
+            </button>
+          </div>
+        )}
+      </FieldArray>
+    </div>
+  );
+};
+
+export { FieldGroup, ArrayFieldGroup };

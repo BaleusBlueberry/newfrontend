@@ -7,7 +7,7 @@ import { ResourceType } from "../../Types/enums/ResourceType";
 import { DefensiveBuildingsModel } from "../../Types/DefensiveModels/DefensiveBuildingsModel";
 import { DefensiveBuildingsDataTest } from "../../tests/DefensiveBuildingData";
 import { DefensiveBuildingsValidation } from "../../Validations/DefensiveBuildingValidation";
-import FieldGroup from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
+import { FieldGroup } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
 import { DamageType } from "../../Types/enums/DamageType";
 import { dialogs } from "../../dialogs/dialogs";
@@ -15,7 +15,7 @@ import { dialogs } from "../../dialogs/dialogs";
 function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
   const isEditMode = mode === "edit";
-  const { fetchSingleBuilding, updateBuilding, createBuilding, fetchCategory } =
+  const { fetchSingleBuilding, updateBuilding, createBuilding } =
     useCOCProvider();
 
   const [formValues, setFormValues] = useState<DefensiveBuildingsModel>(
@@ -56,27 +56,13 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const onSubmit = async (values: DefensiveBuildingsModel) => {
     if (isEditMode) {
       try {
-        const response = await updateBuilding(
-          BuildingTypes.DefensiveBuildings,
-          values
-        );
-        if (response.status == 204) {
-          console.log("Building updated successfully:", values);
-          await fetchCategory(BuildingTypes.DefensiveBuildings);
-        }
+        await updateBuilding(BuildingTypes.DefensiveBuildings, values);
       } catch (error) {
         console.error("Error updating Building:", error);
       }
     } else {
       try {
-        const response = await createBuilding(
-          BuildingTypes.DefensiveBuildings,
-          values
-        );
-        if (response.status == 201) {
-          console.log("New Building added successfully:", values);
-          await fetchCategory(BuildingTypes.DefensiveBuildings);
-        }
+        await createBuilding(BuildingTypes.DefensiveBuildings, values);
       } catch (error) {
         console.error("Error adding Building:", error);
       }
@@ -96,7 +82,7 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
         enableReinitialize
       >
         {({ setFieldValue }) => (
-          <Form className="overlay-content flex flex-col items-center">
+          <Form className="overlay-content flex-col items-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
             <FieldGroup
               label="Level"
               name="level"

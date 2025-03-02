@@ -86,17 +86,20 @@ export const BuildingsPage: React.FC = () => {
         {!selectedBuildings && <Spinner />}
         {selectedBuildings && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6 md:gap-8 mt-6">
-            {selectedBuildings.map((building) => (
-              <div
-                onClick={() =>
-                  navigate(`/Buildings/${buildingType}/${building.name}`)
-                }
-                key={building.id}
-                className="cursor-pointer"
-              >
-                <BuildingCard key={building.id} building={building} />
-              </div>
-            ))}
+            {selectedBuildings &&
+              [...selectedBuildings]
+                .sort((a, b) => a.level - b.level)
+                .map((building) => (
+                  <div
+                    onClick={() =>
+                      navigate(`/Buildings/${buildingType}/${building.name}`)
+                    }
+                    key={building.id}
+                    className="cursor-pointer"
+                  >
+                    <BuildingCard key={building.id} building={building} />
+                  </div>
+                ))}
           </div>
         )}
       </div>

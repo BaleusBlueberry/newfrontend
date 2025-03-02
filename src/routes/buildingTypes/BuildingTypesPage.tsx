@@ -43,7 +43,16 @@ export const BuildingTypesPage: React.FC = () => {
     };
 
     fetchData();
-  }, [buildingType, buildingName, isLoading]);
+  }, [
+    buildingType,
+    buildingName,
+    isLoading,
+    resourceBuildings,
+    armyBuildings,
+    defensiveBuildings,
+    trapBuildings,
+    buildingName,
+  ]);
 
   function SetBuildingsByNameAndHighestLevel(
     selectedBuildings: BuildingModel[]
@@ -105,39 +114,44 @@ export const BuildingTypesPage: React.FC = () => {
     <div>
       <div className="p-6">
         <h1 className="overlay-title">{buildingType}</h1>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6 md:gap-8 mt-6">
-          {selectedBuildings.map((building) => (
-            <div
-              onClick={() => {
-                if (buildingName) toggleOverlay(building);
-                else {
-                  navigate(`/Buildings/${buildingType}/${building.name}`);
-                }
-              }}
-              key={building.id}
-              className="cursor-pointer"
-            >
-              <BuildingCard key={building.id} building={building} />
-            </div>
-          ))}
-          {isAdmin && (
-            <div
-              onClick={() => {
-                navigate(`/${buildingType}/add`);
-              }}
-              key="324"
-              className="cursor-pointer"
-            >
-              <AddCard buildingtype={buildingType}></AddCard>
-            </div>
-          )}
-        </div>
+        {!selectedBuildings ? (
+          <Spinner />
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6 md:gap-8 mt-6">
+            {selectedBuildings
+              .sort((a, b) => a.level - b.level)
+              .map((building) => (
+                <div
+                  key={building.id}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    if (buildingName) toggleOverlay(building);
+                    else
+                      navigate(`/Buildings/${buildingType}/${building.name}`);
+                  }}
+                >
+                  <BuildingCard building={building} />
+                </div>
+              ))}
+            {isAdmin && (
+              <div
+                key="admin-add"
+                className="cursor-pointer"
+                onClick={() => navigate(`/${buildingType}/add`)}
+              >
+                <AddCard buildingtype={buildingType} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      <BuildingCardOverlay
-        isOverlayOpen={isOverlayOpen}
-        onClose={() => toggleOverlay()}
-        building={selectedBuilding}
-      />
+      {selectedBuilding && (
+        <BuildingCardOverlay
+          isOverlayOpen={isOverlayOpen}
+          onClose={toggleOverlay}
+          building={selectedBuilding}
+        />
+      )}
     </div>
   );
 };
