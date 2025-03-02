@@ -209,7 +209,7 @@ const BuildingCard: React.FC<BuildingCardProps> = ({ building }) => {
     <div className="overlay-card">
       <div className="p-4 rounded-lg flex flex-col items-center justify-center overflow-hidden">
         <img
-          className="w-full h-auto max-h-48 object-cover -mb-2"
+          className="w-auto h-full max-h-48 object-cover -mb-2"
           src={building.picture || placeholderImage}
           alt={building.name}
         />

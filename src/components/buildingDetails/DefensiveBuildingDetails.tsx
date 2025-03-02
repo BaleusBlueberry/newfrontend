@@ -10,7 +10,7 @@ export const DefensiveBuildingDetails: React.FC<
 > = ({ building }) => {
   return (
     <div>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-xs sm:text-sm -mt-6 inner-container-x2 p-3">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-xs sm:text-sm -mt-2 inner-container-x2 p-3">
         <div className="col-span-2 text-center text-base">
           <span className="font-semibold">Required TownHall: </span>
           {building.townHallLevel}

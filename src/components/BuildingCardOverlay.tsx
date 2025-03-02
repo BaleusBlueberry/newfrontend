@@ -20,15 +20,6 @@ export const BuildingCardOverlay: React.FC<OverlayProps> = ({
 
   if (!isOverlayOpen || !building) return null;
 
-  const categories = [
-    { key: "otherBuildings" },
-    { key: "defensiveBuildings" },
-    { key: "trapBuildings" },
-    { key: "heroes" },
-    { key: "resourceBuildings" },
-    { key: "allBuildings" },
-  ];
-
   return (
     <div className="overlay-backdrop" onClick={onClose}>
       <div
@@ -63,7 +54,7 @@ export const BuildingCardOverlay: React.FC<OverlayProps> = ({
             )}
           </div>
 
-          <div className="inner-container p-4 ">
+          <div className="inner-container p-4">
             <BasicBuildingDetails
               building={building}
               buildingType={building.buildingType}
