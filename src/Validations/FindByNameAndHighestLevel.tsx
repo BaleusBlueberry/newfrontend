@@ -1,28 +1,33 @@
 import { BuildingModel } from "../Types/BuildingModel";
 
 const FindByNameAndHighestLevel = (selectedBuildings: BuildingModel[]) => {
-  if (selectedBuildings == null) return;
+  if (!Array.isArray(selectedBuildings) || selectedBuildings.length === 0) {
+    return [];
+  }
 
   try {
     const filteredBuildings = Array.from(
       selectedBuildings
+        .filter(
+          (building) =>
+            building && building.name && typeof building.name === "string"
+        ) // Ensure valid name
         .reduce((map, building) => {
-          // Check if the building name already exists in the map
           if (
             !map.has(building.name) ||
             building.level > map.get(building.name).level
           ) {
-            // Update the map with the building if it's new or has a higher level
             map.set(building.name, building);
           }
           return map;
-        }, new Map())
+        }, new Map<string, BuildingModel>())
         .values()
     );
+
     return filteredBuildings;
   } catch (e) {
     console.error("Error filtering buildings:", e);
-    throw e;
+    return []; // Return an empty array on error
   }
 };
 

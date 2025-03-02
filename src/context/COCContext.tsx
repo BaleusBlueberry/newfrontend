@@ -10,6 +10,7 @@ import { AxiosError } from "axios";
 import { dialogs } from "../dialogs/dialogs";
 import { BuildingData } from "../services/@types";
 import { BuildingModel } from "../Types/BuildingModel";
+import { useNavigate } from "react-router-dom";
 
 interface COCContext {
   armyBuildings: ArmyBuildingsModel[];
@@ -21,15 +22,15 @@ interface COCContext {
   error: Record<BuildingTypes, string> | null;
   fetchAll: () => Promise<void>;
   fetchCategory: (category: BuildingTypes) => Promise<void>;
-  deleateBuilding: (category: BuildingTypes, id: string) => Promise<Response>;
+  deleateBuilding: (category: BuildingTypes, id: string) => Promise<unknown>;
   updateBuilding: (
     category: BuildingTypes,
     data: BuildingData
-  ) => Promise<Response>;
+  ) => Promise<unknown>;
   createBuilding: (
     category: BuildingTypes,
     data: BuildingData
-  ) => Promise<Response>;
+  ) => Promise<unknown>;
   fetchSingleBuilding: (
     category: BuildingTypes,
     id: string
@@ -66,21 +67,18 @@ function COCProvider({ children }) {
     trapBuildings: setTrapBuildings,
     resourceBuildings: setResourceBuildings,
   };
+  const navigate = useNavigate();
 
   const handleAsyncOperation = async (
     category: BuildingTypes,
-    operation: () => Promise<unknown>
+    operation: () => Promise<any>
   ) => {
     setIsLoading(true);
     setError((prev) => ({ ...prev, [category]: null }));
-    dialogs.load();
-
     try {
       const result = await operation();
-      dialogs.closeLoad();
       return result;
     } catch (err) {
-      dialogs.closeLoad();
       handleAxiosError(err as AxiosError, (message) => {
         setError((prev) => ({ ...prev, [category]: message }));
         dialogs.error(message);
@@ -119,6 +117,7 @@ function COCProvider({ children }) {
   ) => {
     try {
       // Show loading state and reset error
+      setIsLoading(true);
       await handleAsyncOperation(category, async () => {
         // Update the state for the given category
         categoryMap[category]((prevBuildings) => {
@@ -134,6 +133,7 @@ function COCProvider({ children }) {
           }
         });
       });
+      setIsLoading(false);
     } catch (error) {
       console.error("Error setting building:", error);
       return null;
@@ -163,7 +163,11 @@ function COCProvider({ children }) {
     try {
       return await handleAsyncOperation(category, async () => {
         const response = await apiBuildings.update(category, updatedBuilding);
-        setBuilding(category, response.data);
+        if (response.status === 204) {
+          setBuilding(category, updatedBuilding);
+          dialogs.success(`updated building successfully`);
+          navigate(`/Buildings/${category}`);
+        }
         return response;
       });
     } catch (error) {
@@ -179,7 +183,11 @@ function COCProvider({ children }) {
     try {
       return await handleAsyncOperation(category, async () => {
         const response = await apiBuildings.create(category, building);
-        setBuilding(category, response.data);
+        if (response.status === 201) {
+          setBuilding(category, response.data);
+          dialogs.success(`added building successfully`);
+          navigate(`/Buildings/${category}`);
+        }
         return response;
       });
     } catch (error) {
