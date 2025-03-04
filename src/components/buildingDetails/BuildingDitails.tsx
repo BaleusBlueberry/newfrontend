@@ -64,7 +64,6 @@ export const BasicBuildingDetails: React.FC<BasicBuildingDetailsProps> = ({
               : placeholderImage
           }
           alt={`${building.name} Level ${building.level} image`}
-          className="image"
         />
       </div>
       {renderBuildingDetails()}
