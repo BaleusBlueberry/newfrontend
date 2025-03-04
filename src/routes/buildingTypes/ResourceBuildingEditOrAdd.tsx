@@ -160,6 +160,28 @@ function ResourceBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
               parseValue={(value) => parseFloat(value) || 0}
             />
 
+            <FieldGroup
+              label="Storage Capacity Gold"
+              name="storageCapacityGold"
+              type="number"
+              setFieldValue={setFieldValue}
+              parseValue={(value) => parseFloat(value) || 0}
+            />
+            <FieldGroup
+              label="Storage Capacity Elixir"
+              name="storageCapacityElixir"
+              type="number"
+              setFieldValue={setFieldValue}
+              parseValue={(value) => parseFloat(value) || 0}
+            />
+            <FieldGroup
+              label="Storage Capacity DarkElixir"
+              name="storageCapacityDarkElixir"
+              type="number"
+              setFieldValue={setFieldValue}
+              parseValue={(value) => parseFloat(value) || 0}
+            />
+
             {/* Submit Button */}
             <div className="mt-4">
               <button type="submit" className="btn btn-primary">
