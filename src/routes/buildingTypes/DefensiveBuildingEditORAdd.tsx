@@ -11,18 +11,24 @@ import { FieldGroup } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd
 import Spinner from "../../components/Spinner";
 import { DamageType } from "../../Types/enums/DamageType";
 import { dialogs } from "../../dialogs/dialogs";
+import OverlaySelectTime from "../../components/OverLaySelectTime";
 
 function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
   const isEditMode = mode === "edit";
   const { fetchSingleBuilding, updateBuilding, createBuilding } =
     useCOCProvider();
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   const [formValues, setFormValues] = useState<DefensiveBuildingsModel>(
     DefensiveBuildingsDataTest
   );
 
   const [loading, setLoading] = useState<boolean>(true);
+
+  const toggleOverlay = () => {
+    setIsOverlayOpen(!isOverlayOpen);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,13 +127,19 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
               setFieldValue={setFieldValue}
               parseValue={(value) => parseInt(value, 10) || 0}
             />
-            <FieldGroup
-              label="Upgrade Time (Seconds)"
-              name="upgradeTimeSeconds"
-              type="number"
-              setFieldValue={setFieldValue}
-              parseValue={(value) => parseInt(value, 10) || 0}
-            />
+            <div className="grid grid-cols-2">
+              <button type="button" onClick={() => toggleOverlay()}>
+                Calculate Time
+              </button>
+              <FieldGroup
+                label="Upgrade Time (Seconds)"
+                name="upgradeTimeSeconds"
+                type="number"
+                setFieldValue={setFieldValue}
+                parseValue={(value) => parseInt(value, 10) || 0}
+              />
+            </div>
+
             <FieldGroup
               label="Building Type"
               name="buildingType"
@@ -222,6 +234,17 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           </Form>
         )}
       </Formik>
+      <OverlaySelectTime
+        isOverlayOpen={isOverlayOpen}
+        onClose={() => toggleOverlay()}
+        onTimeCalculated={(seconds) => {
+          setFormValues((prev) => ({
+            ...prev,
+            upgradeTimeSeconds: seconds,
+          }));
+        }}
+        timeInSeconds={formValues.upgradeTimeSeconds}
+      />
     </div>
   );
 }
