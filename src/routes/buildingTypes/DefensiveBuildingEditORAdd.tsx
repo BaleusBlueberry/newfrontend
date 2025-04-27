@@ -18,14 +18,13 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const isEditMode = mode === "edit";
   const { fetchSingleBuilding, updateBuilding, createBuilding } =
     useCOCProvider();
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
   const [formValues, setFormValues] = useState<DefensiveBuildingsModel>(
     DefensiveBuildingsDataTest
   );
 
   const [loading, setLoading] = useState<boolean>(true);
-
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const toggleOverlay = () => {
     setIsOverlayOpen(!isOverlayOpen);
   };
@@ -127,17 +126,23 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
               setFieldValue={setFieldValue}
               parseValue={(value) => parseInt(value, 10) || 0}
             />
-            <div className="grid grid-cols-2">
-              <button type="button" onClick={() => toggleOverlay()}>
+            <div className="grid grid-cols-3 gap-4 items-center">
+              <button
+                type="button"
+                className="btn btn-primary mt-2"
+                onClick={() => toggleOverlay()}
+              >
                 Calculate Time
               </button>
-              <FieldGroup
-                label="Upgrade Time (Seconds)"
-                name="upgradeTimeSeconds"
-                type="number"
-                setFieldValue={setFieldValue}
-                parseValue={(value) => parseInt(value, 10) || 0}
-              />
+              <div className="col-span-2">
+                <FieldGroup
+                  label="Upgrade Time (Seconds)"
+                  name="upgradeTimeSeconds"
+                  type="number"
+                  setFieldValue={setFieldValue}
+                  parseValue={(value) => parseInt(value, 10) || 0}
+                />
+              </div>
             </div>
 
             <FieldGroup

@@ -11,6 +11,7 @@ import { TrapBuildingsValidation } from "../../Validations/TrapBuildingValidatio
 import { FieldGroup } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
 import { dialogs } from "../../dialogs/dialogs";
+import OverlaySelectTime from "../../components/OverLaySelectTime";
 
 function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
@@ -22,6 +23,10 @@ function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
     TrapBuildingsDataTest
   );
 
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const toggleOverlay = () => {
+    setIsOverlayOpen(!isOverlayOpen);
+  };
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -121,13 +126,24 @@ function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
               setFieldValue={setFieldValue}
               parseValue={(value) => parseInt(value, 10) || 0}
             />
-            <FieldGroup
-              label="Upgrade Time (Seconds)"
-              name="upgradeTimeSeconds"
-              type="number"
-              setFieldValue={setFieldValue}
-              parseValue={(value) => parseInt(value, 10) || 0}
-            />
+            <div className="grid grid-cols-3 gap-4 items-center">
+              <button
+                type="button"
+                className="btn btn-primary mt-2"
+                onClick={() => toggleOverlay()}
+              >
+                Calculate Time
+              </button>
+              <div className="col-span-2">
+                <FieldGroup
+                  label="Upgrade Time (Seconds)"
+                  name="upgradeTimeSeconds"
+                  type="number"
+                  setFieldValue={setFieldValue}
+                  parseValue={(value) => parseInt(value, 10) || 0}
+                />
+              </div>
+            </div>
             <FieldGroup
               label="Building Type"
               name="buildingType"
@@ -192,6 +208,17 @@ function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
           </Form>
         )}
       </Formik>
+      <OverlaySelectTime
+        isOverlayOpen={isOverlayOpen}
+        onClose={() => toggleOverlay()}
+        onTimeCalculated={(seconds) => {
+          setFormValues((prev) => ({
+            ...prev,
+            upgradeTimeSeconds: seconds,
+          }));
+        }}
+        timeInSeconds={formValues.upgradeTimeSeconds}
+      />
     </div>
   );
 }
