@@ -1,6 +1,10 @@
 export const TimeCalculator = (time: number): string => {
   if (time <= 0 || !Number.isInteger(time)) return "0S";
 
+  // MAKE INTO A CLASS
+  // THIS.SECONDS THIS.MINUTS ECT....
+  // THIS.RETURNSTRING AS A REGULAR RETUURN AS IT IS NOW
+
   let remainingTimeInSeconds = time;
   const finalTime = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
