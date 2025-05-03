@@ -8,6 +8,7 @@ interface ResourceBuildingDetailsProps extends CardProps {
 export const ResourceBuildingDetails: React.FC<
   ResourceBuildingDetailsProps
 > = ({ building }) => {
+  const timer = new TimeCalculator(building.upgradeTimeSeconds);
   return (
     <div>
       <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-2xl inner-container-x2 p-3">
@@ -21,7 +22,7 @@ export const ResourceBuildingDetails: React.FC<
         </div>
         <div className="col-span-2 sm:col-span-1">
           <span className="font-semibold">Upgrade Time: </span>
-          {TimeCalculator(building.upgradeTimeSeconds)}
+          {timer.printFull()}
         </div>
         <div className="col-span-2 sm:col-span-1">
           <span className="font-semibold">Experience: </span>

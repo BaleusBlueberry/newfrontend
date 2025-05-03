@@ -9,6 +9,7 @@ interface DefensiveBuildingDetailsProps extends CardProps {
 export const DefensiveBuildingDetails: React.FC<
   DefensiveBuildingDetailsProps
 > = ({ building }) => {
+  const timer = new TimeCalculator(building.upgradeTimeSeconds);
   return (
     <div>
       <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-2xl -mt-2 inner-container-x2 p-3">
@@ -22,7 +23,7 @@ export const DefensiveBuildingDetails: React.FC<
         </div>
         <div className="col-span-2 sm:col-span-1">
           <span className="font-semibold">Upgrade Time: </span>
-          {TimeCalculator(building.upgradeTimeSeconds)}
+          {timer.printFull()}
         </div>
         <div className="col-span-2 sm:col-span-1">
           <span className="font-semibold">Experience: </span>
