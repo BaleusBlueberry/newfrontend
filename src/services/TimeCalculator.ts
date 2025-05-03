@@ -1,32 +1,41 @@
-export const TimeCalculator = (time: number): string => {
-  if (time <= 0 || !Number.isInteger(time)) return "0S";
+import { dialogs } from "../dialogs/dialogs";
 
-  // MAKE INTO A CLASS
-  // THIS.SECONDS THIS.MINUTS ECT....
-  // THIS.RETURNSTRING AS A REGULAR RETUURN AS IT IS NOW
+export class TimeCalculator {
+  public seconds: number;
+  public minutes: number;
+  public hours: number;
+  public days: number;
 
-  let remainingTimeInSeconds = time;
-  const finalTime = { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  constructor(inputSeconds: number) {
+    if (inputSeconds <= 0 || !Number.isInteger(inputSeconds)) {
+      dialogs.error("input secods in negetive or 0");
+      return;
+    }
 
-  finalTime.days = Math.floor(remainingTimeInSeconds / 86400);
-  remainingTimeInSeconds %= 86400;
+    let remainingTimeInSeconds = inputSeconds;
 
-  finalTime.hours = Math.floor(remainingTimeInSeconds / 3600);
-  remainingTimeInSeconds %= 3600;
+    this.days = Math.floor(remainingTimeInSeconds / 86400);
+    remainingTimeInSeconds %= 86400;
 
-  finalTime.minutes = Math.floor(remainingTimeInSeconds / 60);
-  remainingTimeInSeconds %= 60;
+    this.hours = Math.floor(remainingTimeInSeconds / 3600);
+    remainingTimeInSeconds %= 3600;
 
-  finalTime.seconds = remainingTimeInSeconds;
+    this.minutes = Math.floor(remainingTimeInSeconds / 60);
+    remainingTimeInSeconds %= 60;
 
-  return (
-    [
-      finalTime.days > 0 ? `${finalTime.days}D` : "",
-      finalTime.hours > 0 ? `${finalTime.hours}H` : "",
-      finalTime.minutes > 0 ? `${finalTime.minutes}M` : "",
-      finalTime.seconds > 0 ? `${finalTime.seconds}S` : "",
-    ]
-      .filter(Boolean)
-      .join(" ") || "0S"
-  );
-};
+    this.seconds = remainingTimeInSeconds;
+  }
+
+  printFull() {
+    return (
+      [
+        this.days > 0 ? `${this.days}D` : "",
+        this.hours > 0 ? `${this.hours}H` : "",
+        this.minutes > 0 ? `${this.minutes}M` : "",
+        this.seconds > 0 ? `${this.seconds}S` : "",
+      ]
+        .filter(Boolean)
+        .join(" ") || "0S"
+    );
+  }
+}
