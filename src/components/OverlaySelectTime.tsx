@@ -1,28 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { TimeCalculator } from "../services/TimeCalculator";
 
 interface OverlayProps {
   isOverlayOpen: boolean;
   onClose: () => void;
+  onTimeCalculated?: (totalSeconds: number) => void;
   timeInSeconds: number;
-  onTimeCalculated?: (totalSeconds: number) => void; // callback to pass time back
 }
 
 const OverlaySelectTime: React.FC<OverlayProps> = ({
   isOverlayOpen,
   onClose,
   onTimeCalculated,
+  timeInSeconds,
 }) => {
-  const [days, setDays] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
-  const [result, setResult] = useState(0);
+  const timer = new TimeCalculator(timeInSeconds);
+
+  const [time, setTime] = useState({
+    days: timer.days,
+    hours: timer.hours,
+    minutes: timer.minutes,
+    seconds: timer.seconds,
+  });
+
+  useEffect(() => {
+    const timer = new TimeCalculator(timeInSeconds);
+    setTime({
+      days: timer.days,
+      hours: timer.hours,
+      minutes: timer.minutes,
+      seconds: timer.seconds,
+    });
+  }, [timeInSeconds]);
 
   if (!isOverlayOpen) return null;
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setTime((prev) => ({ ...prev, [name]: +value }));
+  };
+
   const calculateTime = () => {
-    const totalSeconds = days * 86400 + hours * 3600 + minutes * 60 + seconds;
-    setResult(totalSeconds);
+    const totalSeconds =
+      time.days * 86400 + time.hours * 3600 + time.minutes * 60 + time.seconds;
     onTimeCalculated?.(totalSeconds);
     onClose();
   };
@@ -35,35 +55,40 @@ const OverlaySelectTime: React.FC<OverlayProps> = ({
         style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.9)", margin: "20px" }}
       >
         <div className="inner-container p-4">
-          <div className="overlay-title">Time Calculator</div>
-
-          <div className="grid grid-cols-2 gap-2 mb-2">
-            <input
-              type="number"
-              placeholder="Days"
-              onChange={(e) => setDays(+e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Hours"
-              onChange={(e) => setHours(+e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Minutes"
-              onChange={(e) => setMinutes(+e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Seconds"
-              onChange={(e) => setSeconds(+e.target.value)}
-            />
+          {/* X button in top-right */}
+          <div
+            className="absolute top-2 right-2 text-xl cursor-pointer"
+            onClick={onClose}
+          >
+            ✕
           </div>
+          <h2 className="overlay-title text-center mb-4">Time Calculator</h2>
 
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            {["seconds", "minutes", "hours", "days"].map((field) => (
+              <div key={field} className="flex flex-col">
+                <label
+                  className="text-base font-medium capitalize mb-1"
+                  htmlFor={field}
+                >
+                  {field}
+                </label>
+                <input
+                  id={field}
+                  type="number"
+                  name={field}
+                  value={time[field]}
+                  onChange={handleChange}
+                  className="border text-base p-1 w-1/4"
+                  min={0}
+                />
+              </div>
+            ))}
+          </div>
           <button
             type="button"
             onClick={calculateTime}
-            className="btn btn-primary w-full"
+            className="btn btn-primary"
           >
             Calculate
           </button>
