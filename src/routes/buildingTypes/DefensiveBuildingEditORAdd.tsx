@@ -87,7 +87,7 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
         enableReinitialize
       >
         {({ setFieldValue }) => (
-          <Form className="overlay-content flex-col items-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+          <Form className="overlay-content flex flex-col items-center">
             <FieldGroup
               label="Level"
               name="level"

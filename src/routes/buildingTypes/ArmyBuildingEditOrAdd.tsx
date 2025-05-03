@@ -61,20 +61,14 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const onSubmit = async (values: ArmyBuildingsModel) => {
     if (isEditMode) {
       try {
-        const response = await updateBuilding(
-          BuildingTypes.ArmyBuildings,
-          values
-        );
+        await updateBuilding(BuildingTypes.ArmyBuildings, values);
       } catch (error) {
         dialogs.error("Error updating Building");
         console.error("Error updating Building:", error);
       }
     } else {
       try {
-        const response = await createBuilding(
-          BuildingTypes.ArmyBuildings,
-          values
-        );
+        await createBuilding(BuildingTypes.ArmyBuildings, values);
       } catch (error) {
         dialogs.error("Error adding Building");
         console.error("Error adding Building:", error);
