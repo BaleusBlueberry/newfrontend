@@ -64,11 +64,11 @@ const OverlaySelectTime: React.FC<OverlayProps> = ({
           </div>
           <h2 className="overlay-title text-center mb-4">Time Calculator</h2>
 
-          <div className="grid grid-cols-2 gap-2 mb-4">
+          <div className="grid grid-cols-2 gap-2 mb-4 w-fit mx-auto">
             {["seconds", "minutes", "hours", "days"].map((field) => (
-              <div key={field} className="flex flex-col">
+              <div key={field} className="flex flex-col w-20">
                 <label
-                  className="text-base font-medium capitalize mb-1"
+                  className="text-base font-medium capitalize mb-1 self-center"
                   htmlFor={field}
                 >
                   {field}
@@ -79,7 +79,7 @@ const OverlaySelectTime: React.FC<OverlayProps> = ({
                   name={field}
                   value={time[field]}
                   onChange={handleChange}
-                  className="border text-base p-1 w-1/4"
+                  className="border text-lg p-1 w-12 text-center self-center"
                   min={0}
                 />
               </div>
@@ -88,7 +88,7 @@ const OverlaySelectTime: React.FC<OverlayProps> = ({
           <button
             type="button"
             onClick={calculateTime}
-            className="btn btn-primary"
+            className="btn btn-primary text-xl"
           >
             Calculate
           </button>
