@@ -11,7 +11,7 @@ import { TrapBuildingsValidation } from "../../Validations/TrapBuildingValidatio
 import { FieldGroup } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
 import Spinner from "../../components/Spinner";
 import { dialogs } from "../../dialogs/dialogs";
-import OverlaySelectTime from "../../components/OverLaySelectTime";
+import OverlaySelectTime from "../../components/OverlaySelectTime";
 
 function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();

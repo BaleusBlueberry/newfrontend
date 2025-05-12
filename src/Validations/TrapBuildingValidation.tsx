@@ -20,20 +20,26 @@ export const TrapBuildingsValidation = Yup.object({
   upgradeTimeSeconds: Yup.number()
     .min(0, "Upgrade time cannot be negative")
     .required("Upgrade time is required"),
-  buildingType: Yup.mixed<keyof typeof BuildingTypes>()
-    .oneOf(Object.values(BuildingTypes), "Invalid building type")
+  buildingType: Yup.mixed<BuildingTypes>()
+    .oneOf(
+      Object.values(BuildingTypes) as BuildingTypes[],
+      "Invalid building type"
+    )
     .required("Building type is required"),
   upgradeCost: Yup.object({
-    resourceType: Yup.mixed<keyof typeof ResourceType>()
-      .oneOf(Object.values(ResourceType), "Invalid resource type")
+    resourceType: Yup.mixed<ResourceType>()
+      .oneOf(
+        Object.values(ResourceType) as ResourceType[],
+        "Invalid resource type"
+      )
       .required("Resource type is required"),
     cost: Yup.number()
       .min(0, "Cost cannot be negative")
       .required("Cost is required"),
   }).required("Upgrade cost is required"),
   damageType: Yup.object({
-    damageType: Yup.mixed<keyof typeof DamageType>()
-      .oneOf(Object.values(DamageType), "Invalid damage type")
+    damageType: Yup.mixed<DamageType>()
+      .oneOf(Object.values(DamageType) as DamageType[], "Invalid damage type")
       .required("Damage type is required"),
     damageRadius: Yup.number().nullable(),
     damage: Yup.number().nullable(),

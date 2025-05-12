@@ -11,7 +11,7 @@ import { FieldGroup } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd
 import Spinner from "../../components/Spinner";
 import { DamageType } from "../../Types/enums/DamageType";
 import { dialogs } from "../../dialogs/dialogs";
-import OverlaySelectTime from "../../components/OverLaySelectTime";
+import OverlaySelectTime from "../../components/OverlaySelectTime";
 
 function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();

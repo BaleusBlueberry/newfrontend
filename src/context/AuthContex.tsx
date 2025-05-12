@@ -27,7 +27,7 @@ export interface AuthContextType {
   loginFunction: (response: LoginResponse) => void;
   logout: () => void;
   getSingleUser: () => Promise<UserDataForUpdateModel>;
-  getFavorites: () => Promise<FavoritesModel>;
+  getFavorites: (id: string) => Promise<FavoritesModel>;
   setSingleFavorite: (category: string, id: string) => void;
   checkIfFavorite: (category: string, id: string) => boolean;
   favArmyBuildings: string[];
@@ -282,6 +282,7 @@ function AuthProvider({ children }) {
     favTownHalls,
     setSingleFavorite,
     isLoadingFavorites,
+    getFavorites,
   };
 
   return (

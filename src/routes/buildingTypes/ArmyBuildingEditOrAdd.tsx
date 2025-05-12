@@ -13,7 +13,7 @@ import {
   ArrayFieldGroup,
   FieldGroup,
 } from "../../components/AutoFillEditOrAdd/AutoFillEditOrAdd";
-import OverlaySelectTime from "../../components/OverLaySelectTime";
+import OverlaySelectTime from "../../components/OverlaySelectTime";
 
 function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
