@@ -236,55 +236,19 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
                 {isEditMode ? "Update Building" : "Add Building"}
               </button>
             </div>
+            <OverlaySelectTime
+              isOverlayOpen={isOverlayOpen}
+              onClose={() => toggleOverlay()}
+              onTimeCalculated={(seconds) => {
+                setFieldValue("upgradeTimeSeconds", seconds);
+              }}
+              timeInSeconds={formValues.upgradeTimeSeconds}
+            />
           </Form>
         )}
       </Formik>
-      <OverlaySelectTime
-        isOverlayOpen={isOverlayOpen}
-        onClose={() => toggleOverlay()}
-        onTimeCalculated={(seconds) => {
-          setFormValues((prev) => ({
-            ...prev,
-            upgradeTimeSeconds: seconds,
-          }));
-        }}
-        timeInSeconds={formValues.upgradeTimeSeconds}
-      />
     </div>
   );
 }
 
 export default DefensiveBuildingEditOrAdd;
-/* 
-{
-    "level": 1,
-    "picture": "https://static.wikia.nocookie.net/clashofclans/images/a/a1/Cannon1.png",
-    "name": "Cannon",
-    "hp": 420,
-    "experience": 3,
-    "townHallLevel": 1,
-    "upgradeTimeSeconds": 10,
-    "buildingType": "DefensiveBuildings",
-    "upgradeCost": {
-        "resourceType": "Gold",
-        "cost": 250
-    },
-    "buildingRange": {
-        "maxRange": 9,
-        "minRange": 0
-    },
-    "damageInfo": {
-        "damagePerHit": 7.2,
-        "damagePerSecond": 9,
-        "shockwaveDamage": 0,
-        "burstsFire": 0,
-        "damageWhenDestroyed": 0,
-        "pushStrength": 0,
-        "damageType": "SingleTarget"
-    },
-    "targets": {
-        "ground": true,
-        "air": false
-    }
-}
-*/

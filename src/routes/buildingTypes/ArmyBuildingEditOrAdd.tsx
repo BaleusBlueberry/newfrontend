@@ -208,20 +208,17 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
                 {isEditMode ? "Update Building" : "Add Building"}
               </button>
             </div>
+            <OverlaySelectTime
+              isOverlayOpen={isOverlayOpen}
+              onClose={() => toggleOverlay()}
+              onTimeCalculated={(seconds) => {
+                setFieldValue("upgradeTimeSeconds", seconds);
+              }}
+              timeInSeconds={formValues.upgradeTimeSeconds}
+            />
           </Form>
         )}
       </Formik>
-      <OverlaySelectTime
-        isOverlayOpen={isOverlayOpen}
-        onClose={() => toggleOverlay()}
-        onTimeCalculated={(seconds) => {
-          setFormValues((prev) => ({
-            ...prev,
-            upgradeTimeSeconds: seconds,
-          }));
-        }}
-        timeInSeconds={formValues.upgradeTimeSeconds}
-      />
     </div>
   );
 }
