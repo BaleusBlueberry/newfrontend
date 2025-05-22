@@ -137,7 +137,13 @@ export const BuildingTypesPage: React.FC = () => {
               <div
                 key="admin-add"
                 className="cursor-pointer"
-                onClick={() => navigate(`/${buildingType}/add`)}
+                onClick={() =>
+                  navigate(
+                    `/${buildingType}/add${
+                      buildingName ? `/${buildingName}` : "/newbuilding"
+                    }`
+                  )
+                }
               >
                 <AddCard buildingtype={buildingType} />
               </div>

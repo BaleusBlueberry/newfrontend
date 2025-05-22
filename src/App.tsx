@@ -85,7 +85,7 @@ export const App = () => {
           element={<BuildingTypesPage />}
         />
         <Route
-          path="/resourceBuildings/add"
+          path="/resourceBuildings/add/:buildingName"
           element={
             <ProtectedRoute>
               <ResourceBuildingEditOrAdd mode="add" />
@@ -101,7 +101,7 @@ export const App = () => {
           }
         ></Route>
         <Route
-          path="/armyBuildings/add"
+          path="/armyBuildings/add/:buildingName"
           element={
             <ProtectedRoute>
               <ArmyBuildingEditOrAdd mode="add" />
@@ -117,7 +117,7 @@ export const App = () => {
           }
         ></Route>
         <Route
-          path="/defensiveBuildings/add"
+          path="/defensiveBuildings/add/:buildingName"
           element={
             <ProtectedRoute>
               <DefensiveBuildingEditOrAdd mode="add" />
@@ -133,7 +133,7 @@ export const App = () => {
           }
         ></Route>
         <Route
-          path="/trapBuildings/add"
+          path="/trapBuildings/add/:buildingName"
           element={
             <ProtectedRoute>
               <TrapBuildingEditOrAdd mode="add" />
