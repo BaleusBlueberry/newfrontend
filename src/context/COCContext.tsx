@@ -11,6 +11,7 @@ import { dialogs } from "../dialogs/dialogs";
 import { BuildingData } from "../services/@types";
 import { BuildingModel } from "../Types/BuildingModel";
 import { useNavigate } from "react-router-dom";
+import { isEmptyArray } from "formik";
 
 interface COCContext {
   armyBuildings: ArmyBuildingsModel[];
@@ -35,6 +36,10 @@ interface COCContext {
     category: BuildingTypes,
     id: string
   ) => Promise<BuildingModel>;
+  fetchHighestLevelBuilding: (
+    category: BuildingTypes,
+    buildingName: string
+  ) => Promise<BuildingModel | null>;
 }
 
 const COCContext = createContext<COCContext>(null);
@@ -155,6 +160,36 @@ function COCProvider({ children }) {
     }
   };
 
+  const fetchHighestLevelBuilding = async (
+    category: BuildingTypes,
+    buildingName: string
+  ) => {
+    try {
+      await refreshCategory(category);
+      debugger;
+      const buildings = {
+        armyBuildings,
+        defensiveBuildings,
+        trapBuildings,
+        resourceBuildings,
+      }[category];
+
+      const highest = buildings.filter((b) => b.name == buildingName);
+
+      if (!highest) return null;
+
+      const finalBuilding = highest.sort((a, b) => b.level - a.level)[0];
+
+      return finalBuilding;
+    } catch (error) {
+      dialogs.error(`there was en error getting data from previus buildings`);
+      console.error(
+        "Error fetching Highest Level of a building in a category:",
+        error
+      );
+    }
+  };
+
   // Reusable update function
   const updateBuilding = async (
     category: BuildingTypes,
@@ -227,6 +262,7 @@ function COCProvider({ children }) {
     isLoading,
     error,
     deleateBuilding,
+    fetchHighestLevelBuilding,
   };
 
   return (
