@@ -166,7 +166,6 @@ function COCProvider({ children }) {
   ) => {
     try {
       await refreshCategory(category);
-      debugger;
       const buildings = {
         armyBuildings,
         defensiveBuildings,

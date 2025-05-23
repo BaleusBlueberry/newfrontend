@@ -17,9 +17,15 @@ import OverlaySelectTime from "../../components/OverlaySelectTime";
 
 function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   const { id } = useParams<{ id: string }>();
+  const { buildingName } = useParams<{ buildingName: string }>();
   const isEditMode = mode === "edit";
-  const { fetchSingleBuilding, updateBuilding, createBuilding } =
-    useCOCProvider();
+  const isAddMode = mode === "add";
+  const {
+    fetchSingleBuilding,
+    updateBuilding,
+    createBuilding,
+    fetchHighestLevelBuilding,
+  } = useCOCProvider();
 
   const [formValues, setFormValues] = useState<ArmyBuildingsModel>(
     ArmyBuildingsDataTest
@@ -33,30 +39,56 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (isEditMode && id) {
-        try {
+      setLoading(true);
+
+      try {
+        // EDIT MODE
+        if (isEditMode && id) {
           const responseRaw = await fetchSingleBuilding(
             BuildingTypes.ArmyBuildings,
             id
-          ); // Fetch from server
+          );
           const response = responseRaw as ArmyBuildingsModel;
           if (response) {
-            setFormValues(response); // Set transformed data
+            setFormValues(response);
           } else {
             console.error(`Building with id ${id} not found.`);
+            dialogs.error(`Building with id ${id} not found.`);
           }
-        } catch (error) {
-          console.error("Error fetching Building:", error);
-        } finally {
-          setLoading(false);
+          // ADD MODE
+        } else if (
+          isAddMode &&
+          buildingName.length !== 0 &&
+          buildingName !== "newbuilding"
+        ) {
+          const highestBuildingLevel = await fetchHighestLevelBuilding(
+            BuildingTypes.ArmyBuildings,
+            buildingName
+          );
+          if (highestBuildingLevel) {
+            setFormValues({
+              ...highestBuildingLevel,
+              level: highestBuildingLevel.level + 1,
+              name: buildingName,
+            });
+          } else {
+            console.error(`highest Building Level was not found.`);
+            dialogs.error(`highest Building Level was not found.`);
+          }
+        } else {
+          // fallback/default
+          setFormValues(ArmyBuildingsDataTest);
         }
-      } else {
-        setFormValues(ArmyBuildingsDataTest); // Default values for add mode
+      } catch (error) {
+        console.error("Error fetching Building:", error);
+        dialogs.error(`Error fetching Building:, ${error}`);
+      } finally {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, [isEditMode, id]);
+  }, [isEditMode, id, buildingName]);
 
   const onSubmit = async (values: ArmyBuildingsModel) => {
     if (isEditMode) {
