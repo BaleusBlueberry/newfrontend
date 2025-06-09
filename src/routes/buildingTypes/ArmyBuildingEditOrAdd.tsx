@@ -40,7 +40,6 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-
       try {
         // EDIT MODE
         if (isEditMode && id) {
@@ -91,16 +90,21 @@ function ArmyBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   }, [isEditMode, id, buildingName]);
 
   const onSubmit = async (values: ArmyBuildingsModel) => {
+    const capitalValues: ArmyBuildingsModel = {
+      ...values,
+      name: values.name.charAt(0).toUpperCase() + String(values.name).slice(1),
+    };
+
     if (isEditMode) {
       try {
-        await updateBuilding(BuildingTypes.ArmyBuildings, values);
+        await updateBuilding(BuildingTypes.ArmyBuildings, capitalValues);
       } catch (error) {
         dialogs.error("Error updating Building");
         console.error("Error updating Building:", error);
       }
     } else {
       try {
-        await createBuilding(BuildingTypes.ArmyBuildings, values);
+        await createBuilding(BuildingTypes.ArmyBuildings, capitalValues);
       } catch (error) {
         dialogs.error("Error adding Building");
         console.error("Error adding Building:", error);

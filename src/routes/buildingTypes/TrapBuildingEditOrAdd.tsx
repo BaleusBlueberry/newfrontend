@@ -90,16 +90,20 @@ function TrapBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   }, [isEditMode, id, buildingName]);
 
   const onSubmit = async (values: TrapBuildingsModel) => {
+    const capitalValues: TrapBuildingsModel = {
+      ...values,
+      name: values.name.charAt(0).toUpperCase() + String(values.name).slice(1),
+    };
     if (isEditMode) {
       try {
-        await updateBuilding(BuildingTypes.TrapBuildings, values);
+        await updateBuilding(BuildingTypes.TrapBuildings, capitalValues);
       } catch (error) {
         dialogs.error("Error updating Building");
         console.error("Error updating Trap Building:", error);
       }
     } else {
       try {
-        await createBuilding(BuildingTypes.TrapBuildings, values);
+        await createBuilding(BuildingTypes.TrapBuildings, capitalValues);
       } catch (error) {
         dialogs.error("Error adding Building");
         console.error("Error adding Trap Building:", error);

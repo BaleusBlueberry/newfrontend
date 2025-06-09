@@ -90,15 +90,20 @@ function DefensiveBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   }, [isEditMode, id, buildingName]);
 
   const onSubmit = async (values: DefensiveBuildingsModel) => {
+    const capitalValues: DefensiveBuildingsModel = {
+      ...values,
+      name: values.name.charAt(0).toUpperCase() + String(values.name).slice(1),
+    };
+
     if (isEditMode) {
       try {
-        await updateBuilding(BuildingTypes.DefensiveBuildings, values);
+        await updateBuilding(BuildingTypes.DefensiveBuildings, capitalValues);
       } catch (error) {
         console.error("Error updating Building:", error);
       }
     } else {
       try {
-        await createBuilding(BuildingTypes.DefensiveBuildings, values);
+        await createBuilding(BuildingTypes.DefensiveBuildings, capitalValues);
       } catch (error) {
         console.error("Error adding Building:", error);
       }

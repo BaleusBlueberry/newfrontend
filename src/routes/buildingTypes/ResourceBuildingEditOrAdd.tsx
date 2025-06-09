@@ -89,16 +89,20 @@ function ResourceBuildingEditOrAdd({ mode }: { mode: `add` | `edit` }) {
   }, [isEditMode, id, buildingName]);
 
   const onSubmit = async (values: ResourceBuildingsModel) => {
+    const capitalValues: ResourceBuildingsModel = {
+      ...values,
+      name: values.name.charAt(0).toUpperCase() + String(values.name).slice(1),
+    };
     if (isEditMode) {
       try {
-        await updateBuilding(BuildingTypes.ResourceBuildings, values);
+        await updateBuilding(BuildingTypes.ResourceBuildings, capitalValues);
       } catch (error) {
         dialogs.error("Error updating Building");
         console.error("Error updating Building:", error);
       }
     } else {
       try {
-        await createBuilding(BuildingTypes.ResourceBuildings, values);
+        await createBuilding(BuildingTypes.ResourceBuildings, capitalValues);
       } catch (error) {
         dialogs.error("Error adding Building");
         console.error("Error adding Building: ", error);

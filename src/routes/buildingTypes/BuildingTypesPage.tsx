@@ -113,7 +113,9 @@ export const BuildingTypesPage: React.FC = () => {
   return (
     <div>
       <div className="p-6">
-        <h1 className="overlay-title">{buildingType}</h1>
+        <h1 className="overlay-title">
+          {buildingType.charAt(0).toUpperCase() + String(buildingType).slice(1)}
+        </h1>
         {!selectedBuildings ? (
           <Spinner />
         ) : (
