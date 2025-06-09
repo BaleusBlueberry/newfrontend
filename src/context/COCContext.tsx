@@ -11,7 +11,6 @@ import { dialogs } from "../dialogs/dialogs";
 import { BuildingData } from "../services/@types";
 import { BuildingModel } from "../Types/BuildingModel";
 import { useNavigate } from "react-router-dom";
-import { isEmptyArray } from "formik";
 
 interface COCContext {
   armyBuildings: ArmyBuildingsModel[];
@@ -173,7 +172,9 @@ function COCProvider({ children }) {
         resourceBuildings,
       }[category];
 
-      const highest = buildings.filter((b) => b.name == buildingName);
+      const highest = buildings.filter(
+        (b) => b.name.toLowerCase() == buildingName.toLowerCase()
+      );
 
       if (!highest) return null;
 
