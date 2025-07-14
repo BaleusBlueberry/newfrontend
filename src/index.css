@@ -285,28 +285,35 @@ footer a:hover {
 }
 
 .dropdown {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px); /* For slide-down effect */
+  transition: opacity 0.25s ease, transform 0.25s ease;
   list-style: none;
   position: absolute;
-  top: 100%; /* Position below parent */
-  display: none; /* Initially hidden */
-  background: rgb(var(--background));
+  top: 100%;
   padding: 0;
   margin: 0;
-  border-radius: 5px;
+  border-radius: 10px;
+  min-width: 250px;
+  width: max-content;
   z-index: 1000;
 }
 
+/* Show on hover */
 .menu-items:hover > .dropdown,
 .menu-items:focus-within > .dropdown {
-  display: block; /* Show dropdown on hover or focus */
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 /* Styling for dropdown items */
 .dropdown a,
 .dropdown button {
   display: block;
-  padding: 8px 12px;
-  color: rgb(var(--text-color));
+  /*color: rgb(var(--text-color));*/
+  font-weight: 500;
   text-decoration: none;
   width: 100%; /* Ensure button takes up full width */
   box-sizing: border-box;
@@ -316,21 +323,63 @@ footer a:hover {
 .dropdown a:hover,
 .dropdown button:hover {
   background: rgb(var(--hover-color));
+  transition: background 0.2s ease;
 }
 
 .dropdown .wrapper {
-  border-width: 3px;
+  border-width: 5px;
+  border-style: solid;
   border-color: rgb(var(--inner-background));
+  background: rgb(var(--background));
   overflow: hidden;
   width: 100%;
+  margin-bottom: 6px; /* optional spacing between items */
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform-origin: center;
+}
+.dropdown .wrapper:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 /* Nested dropdowns (optional for multi-level) */
 .dropdown .dropdown {
-  left: 100%;
+  position: absolute;
   top: 0;
-  margin-left: 1px;
+  left: 100%;
+  margin-left: 10px;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-12px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 999;
 }
+
+.menu-items::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  height: 20px; /* vertical buffer below the menu item */
+  width: 100%;
+  pointer-events: auto;
+  background: rgba(255, 0, 0, 0);
+}
+
+.menu-items.has-submenu::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 20px; /* horizontal buffer to the right */
+  height: 100%;
+  pointer-events: auto;
+  background: rgba(255, 0, 0, 0);
+}
+
 .error-message {
   color: red;
   font-size: 12px;

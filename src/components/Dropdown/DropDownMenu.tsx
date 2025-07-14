@@ -18,36 +18,45 @@ export const DropDownMenu: React.FC<DropdownMenuProps> = ({
   };
 
   return (
-    <ul className="dropdown">
-      {Items.map((submenu, index) => (
-        <li className="menu-items" key={index}>
-          {submenu.submenu ? (
-            <>
-              <div className="wrapper">
-                <button
-                  type="button"
-                  aria-haspopup="menu"
-                  aria-expanded="false"
-                  className="dropdown-trigger"
+    <>
+      <ul className="dropdown">
+        <li className="pointer-events-none h-4"></li>
+        {Items.map((submenu, index) => (
+          <li
+            className={`menu-items ${submenu.submenu ? "has-submenu" : ""}`}
+            key={index}
+          >
+            {submenu.submenu ? (
+              <>
+                <div
+                  className="wrapper p-9"
                   onClick={() => handleItemClick(submenu.link)}
                 >
+                  <button
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                    className="dropdown-trigger"
+                    onClick={() => handleItemClick(submenu.link)}
+                  >
+                    {submenu.label}
+                  </button>
+                </div>
+                <DropDownMenu
+                  Items={submenu.submenu}
+                  closeDropdown={closeDropdown}
+                />
+              </>
+            ) : (
+              <div className="wrapper">
+                <NavLink to={submenu.link} onClick={closeDropdown}>
                   {submenu.label}
-                </button>
+                </NavLink>
               </div>
-              <DropDownMenu
-                Items={submenu.submenu}
-                closeDropdown={closeDropdown}
-              />
-            </>
-          ) : (
-            <div className="wrapper">
-              <NavLink to={submenu.link} onClick={closeDropdown}>
-                {submenu.label}
-              </NavLink>
-            </div>
-          )}
-        </li>
-      ))}
-    </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
