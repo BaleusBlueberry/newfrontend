@@ -24,7 +24,7 @@ import Footer from "./components/Footer";
 
 export const App = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="w-full max-w-full overflow-x-hidden">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
